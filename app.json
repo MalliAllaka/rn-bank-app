@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "jal-rakshak",
-    "slug": "jal-rakshak",
+    "name": "rn-bank-app",
+    "slug": "rn-bank-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

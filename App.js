@@ -1,85 +1,98 @@
-import React from "react";
-import {
-  Text,
-  Link,
-  HStack,
-  Center,
-  Heading,
-  Switch,
-  useColorMode,
-  NativeBaseProvider,
-  extendTheme,
-  VStack,
-  Box,
-} from "native-base";
-import NativeBaseIcon from "./components/NativeBaseIcon";
-import { Platform } from "react-native";
-
-// Define the config
-const config = {
-  useSystemColorMode: false,
-  initialColorMode: "dark",
-};
-
-// extend the theme
-export const theme = extendTheme({ config });
+import React, { useEffect, useCallback } from "react";
+import "react-native-gesture-handler";
+import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
+import { View } from "react-native";
+import Index from "./src/App";
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    "Nunito-Black": require("./assets/fonts/Nunito-Black.ttf"),
+    "Nunito-BlackItalic": require("./assets/fonts/Nunito-BlackItalic.ttf"),
+    "Nunito-Bold": require("./assets/fonts/Nunito-Bold.ttf"),
+    "Nunito-BoldItalic": require("./assets/fonts/Nunito-BoldItalic.ttf"),
+    "Nunito-ExtraBold": require("./assets/fonts/Nunito-ExtraBold.ttf"),
+    "Nunito-ExtraBoldItalic": require("./assets/fonts/Nunito-ExtraBoldItalic.ttf"),
+    "Nunito-ExtraLight": require("./assets/fonts/Nunito-ExtraLight.ttf"),
+    "Nunito-ExtraLightItalic": require("./assets/fonts/Nunito-ExtraLightItalic.ttf"),
+    "Nunito-Italic": require("./assets/fonts/Nunito-Italic.ttf"),
+    "Nunito-Light": require("./assets/fonts/Nunito-Light.ttf"),
+    "Nunito-LightItalic": require("./assets/fonts/Nunito-LightItalic.ttf"),
+    "Nunito-Medium": require("./assets/fonts/Nunito-Medium.ttf"),
+    "Nunito-MediumItalic": require("./assets/fonts/Nunito-MediumItalic.ttf"),
+    "Nunito-Regular": require("./assets/fonts/Nunito-Regular.ttf"),
+    "Nunito-SemiBold": require("./assets/fonts/Nunito-SemiBold.ttf"),
+    "Nunito-SemiBoldItalic": require("./assets/fonts/Nunito-SemiBoldItalic.ttf"),
+  });
+
+  useEffect(() => {
+    async function prepare() {
+      await SplashScreen.preventAutoHideAsync();
+    }
+    prepare();
+  }, []);
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null;
+  }
   return (
-    <NativeBaseProvider>
-      <Center
-        _dark={{ bg: "blueGray.900" }}
-        _light={{ bg: "blueGray.50" }}
-        px={4}
-        flex={1}
-      >
-        <VStack space={5} alignItems="center">
-          <NativeBaseIcon />
-          <Heading size="lg">Welcome to NativeBase</Heading>
-          <HStack space={2} alignItems="center">
-            <Text>Edit</Text>
-            <Box
-              _web={{
-                _text: {
-                  fontFamily: "monospace",
-                  fontSize: "sm",
-                },
-              }}
-              px={2}
-              py={1}
-              _dark={{ bg: "blueGray.800" }}
-              _light={{ bg: "blueGray.200" }}
-            >
-              App.js
-            </Box>
-            <Text>and save to reload.</Text>
-          </HStack>
-          <Link href="https://docs.nativebase.io" isExternal>
-            <Text color="primary.500" underline fontSize={"xl"}>
-              Learn NativeBase
-            </Text>
-          </Link>
-          <ToggleDarkMode />
-        </VStack>
-      </Center>
-    </NativeBaseProvider>
+    <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+      <Index />
+    </View>
   );
 }
 
-// Color Switch Component
-function ToggleDarkMode() {
-  const { colorMode, toggleColorMode } = useColorMode();
-  return (
-    <HStack space={2} alignItems="center">
-      <Text>Dark</Text>
-      <Switch
-        isChecked={colorMode === "light"}
-        onToggle={toggleColorMode}
-        aria-label={
-          colorMode === "light" ? "switch to dark mode" : "switch to light mode"
-        }
-      />
-      <Text>Light</Text>
-    </HStack>
-  );
-}
+// import React, { useEffect, useCallback } from "react";
+// import "react-native-gesture-handler";
+// import { useFonts } from "expo-font";
+// import * as SplashScreen from "expo-splash-screen";
+// import Index from "./src/App";
+
+// export default function App() {
+//   const [fontsLoaded] = useFonts({
+//     "Nunito-Black": require("./assets/fonts/Nunito-Black.ttf"),
+//     "Nunito-BlackItalic": require("./assets/fonts/Nunito-BlackItalic.ttf"),
+//     "Nunito-Bold": require("./assets/fonts/Nunito-Bold.ttf"),
+//     "Nunito-BoldItalic": require("./assets/fonts/Nunito-BoldItalic.ttf"),
+//     "Nunito-ExtraBold": require("./assets/fonts/Nunito-ExtraBold.ttf"),
+//     "Nunito-ExtraBoldItalic": require("./assets/fonts/Nunito-ExtraBoldItalic.ttf"),
+//     "Nunito-ExtraLight": require("./assets/fonts/Nunito-ExtraLight.ttf"),
+//     "Nunito-ExtraLightItalic": require("./assets/fonts/Nunito-ExtraLightItalic.ttf"),
+//     "Nunito-Italic": require("./assets/fonts/Nunito-Italic.ttf"),
+//     "Nunito-Light": require("./assets/fonts/Nunito-Light.ttf"),
+//     "Nunito-LightItalic": require("./assets/fonts/Nunito-LightItalic.ttf"),
+//     "Nunito-Medium": require("./assets/fonts/Nunito-Medium.ttf"),
+//     "Nunito-MediumItalic": require("./assets/fonts/Nunito-MediumItalic.ttf"),
+//     "Nunito-Regular": require("./assets/fonts/Nunito-Regular.ttf"),
+//     "Nunito-SemiBold": require("./assets/fonts/Nunito-SemiBold.ttf"),
+//     "Nunito-SemiBoldItalic": require("./assets/fonts/Nunito-SemiBoldItalic.ttf"),
+//   });
+
+//   useEffect(() => {
+//     async function prepare() {
+//       await SplashScreen.preventAutoHideAsync();
+//     }
+//     prepare();
+//   }, []);
+
+//   const onLayoutRootView = async () => {
+//     if (fontsLoaded) {
+//       await SplashScreen.hideAsync();
+//     }
+//   };
+
+//   useEffect(() => {
+//     onLayoutRootView();
+//   }, [fontsLoaded]);
+
+//   if (!fontsLoaded) {
+//     return null;
+//   }
+//   return <Index />;
+// }
