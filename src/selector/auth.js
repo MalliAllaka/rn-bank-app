@@ -9,3 +9,7 @@ export const getLoginDetails = createSelector(auth, (authData) => {
 export const getToken = createSelector(auth, (authData) => {
   return authData?.userToken || '';
 });
+
+export const getUser = createSelector(auth, (authData) => {
+  return authData?.user || {};
+});

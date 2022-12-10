@@ -14,7 +14,7 @@ import hardSet from 'redux-persist/lib/stateReconciler/hardSet';
 const persistConfig = {
   key: 'rn-bank-app',
   storage: AsyncStorage,
-  // blacklist: [],
+  blacklist: ['rn_bank_app_common'],
   stateReconciler: hardSet,
 };
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -17,10 +17,13 @@ const auth = createSlice({
     setLoginDetails(state, { payload }) {
       state.loginDetails = payload;
     },
+    setUser(state, { payload }) {
+      state.user = payload;
+    },
   },
   extraReducers: (builder) => {},
 });
 
-export const { setUserToken, setLoginDetails } = auth.actions;
+export const { setUserToken, setLoginDetails, setUser } = auth.actions;
 
 export default auth.reducer;

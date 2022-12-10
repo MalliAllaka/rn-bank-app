@@ -6,6 +6,8 @@ import { useSelector } from 'react-redux';
 import DrawerNavigator from './DrawerNavigator';
 import Login from '../screens/authentication/Login';
 import { getToken } from '../selector/auth';
+import Register from '../screens/authentication/Register';
+import UserDetails from '../screens/UserDetails';
 
 const Stack = createStackNavigator();
 
@@ -43,6 +45,22 @@ const AuthenticationRoutes = () => {
         component={Login}
         options={{
           headerShown: false,
+          title: 'Registration',
+        }}
+      />
+      <AuthStack.Screen
+        name="Register"
+        component={Register}
+        options={{
+          headerShown: true,
+        }}
+      />
+      <AuthStack.Screen
+        name="UserDetails"
+        component={UserDetails}
+        options={{
+          headerShown: true,
+          title: 'User Details',
         }}
       />
     </AuthStack.Navigator>

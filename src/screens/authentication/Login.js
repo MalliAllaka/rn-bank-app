@@ -27,8 +27,8 @@ export default function Login() {
   const toast = useToast();
   const dispatch = useAppDispatch();
 
-  const [username, setUsername] = React.useState('malli1');
-  const [password, setPassword] = React.useState('malli');
+  const [username, setUsername] = React.useState('malli8');
+  const [password, setPassword] = React.useState('1234');
   const [loading, setLoading] = React.useState(false);
 
   const doLogin = async () => {
@@ -160,9 +160,13 @@ export default function Login() {
                 <Text style={{ textAlign: 'center' }}>
                   Are you new to Online Bank?
                 </Text>
-                <Text style={{ textAlign: 'center' }} color="primary.400">
-                  Create an Account
-                </Text>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('Register')}
+                >
+                  <Text style={{ textAlign: 'center' }} color="primary.400">
+                    Create an Account
+                  </Text>
+                </TouchableOpacity>
               </View>
             </View>
           </View>

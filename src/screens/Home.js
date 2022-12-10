@@ -1,12 +1,15 @@
-import * as React from "react";
-import { StyleSheet } from "react-native";
-import { Text } from "native-base";
-import Container from "../components/Container";
+import * as React from 'react';
+import { StyleSheet } from 'react-native';
+
+import Container from '../components/Container';
+import AccountCard from '../components/AccountCard';
+import LastTransactions from '../components/LastTransactions';
 
 export default function Home() {
   return (
     <Container>
-      <Text>Home!</Text>
+      <AccountCard />
+      <LastTransactions />
     </Container>
   );
 }

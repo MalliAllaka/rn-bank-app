@@ -21,6 +21,8 @@ import {
 } from 'react-native-safe-area-context';
 import { Feather, AntDesign, Entypo, Ionicons } from '@expo/vector-icons';
 import { useDrawerStatus } from '@react-navigation/drawer';
+import { useSelector } from 'react-redux';
+import { getUser } from '../selector/auth';
 
 export default function Header({
   navigation,
@@ -28,6 +30,8 @@ export default function Header({
   options,
   setDrawerStatus,
 }) {
+  const user = useSelector((state) => getUser(state));
+
   const title = getHeaderTitle(options, route.name);
   const insets = useSafeAreaInsets();
   const headerHeight = 50;
@@ -92,20 +96,30 @@ export default function Header({
             </TouchableOpacity>
           )}
           <Text style={styles.title} fontSize="lg">
-            Online Bank
+            {`Hi ${
+              user && user.customer && user.customer.customerDetails.firstName
+                ? user.customer.customerDetails.firstName
+                : ''
+            }`}
           </Text>
         </View>
 
         <View style={styles.left}>
-          <Icon
-            as={Ionicons}
-            size="22px"
-            name="notifications-sharp"
-            color="gray.400"
-            _dark={{
-              color: 'gray.400',
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('Notification');
             }}
-          />
+          >
+            <Icon
+              as={Ionicons}
+              size="22px"
+              name="notifications-sharp"
+              color="gray.400"
+              _dark={{
+                color: 'gray.400',
+              }}
+            />
+          </TouchableOpacity>
         </View>
       </View>
     </>

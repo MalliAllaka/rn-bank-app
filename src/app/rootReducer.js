@@ -6,6 +6,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 // import { parse, stringify } from 'flatted';
 
 import auth from '../reducers/auth';
+import common from '../reducers/common';
+
 import { authMigrations } from './migrations';
 
 // export const transformCircular = createTransform(
@@ -24,6 +26,7 @@ const authPersistConfig = {
 
 const rootReducer = combineReducers({
   auth: persistReducer(authPersistConfig, auth),
+  rn_bank_app_common: common,
 });
 
 export default rootReducer;
