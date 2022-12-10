@@ -12,7 +12,6 @@ import Settings from '../screens/Settings';
 const Tab = createBottomTabNavigator();
 
 export default function TabNavigation() {
-  console.log('TabNavigation');
   return (
     <Tab.Navigator
       tabBar={(props) => <MyTabBar {...props} />}
