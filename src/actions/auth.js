@@ -8,6 +8,7 @@ export const doLogin = createAsyncThunk(
   'auth/login',
   async (userdata, { dispatch, getState }) => {
     try {
+      console.log(userdata);
       const response = await api({
         method: 'post',
         url: 'authenticate',
@@ -17,15 +18,23 @@ export const doLogin = createAsyncThunk(
       const { token } = response.data;
       setApiHeaders(token);
 
+      const userResponse = await api({
+        method: 'get',
+        url: `user/findByUsername?username=${userdata.username}`,
+      });
+
       dispatch(authSlice.setUserToken(token));
       dispatch(authSlice.setLoginDetails(userdata));
+      dispatch(authSlice.setUser(userResponse.data));
     } catch (error) {
-      console.log(JSON.stringify(error));
+      console.log(error);
       const errorMessage = _.get(
         error,
         'response.data.message',
         JSON.stringify(error)
       );
+      dispatch(authSlice.setUserToken(''));
+      dispatch(authSlice.setLoginDetails(''));
       return false;
     }
     return true;

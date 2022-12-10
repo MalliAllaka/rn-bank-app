@@ -1,18 +1,15 @@
-import React from "react";
-import { StyleSheet, View, Text, Platform } from "react-native";
-import { useDrawerStatus } from "@react-navigation/drawer";
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
+import { useBreakpointValue } from 'native-base';
 
 export default function Container(props) {
-  const isDrawerOpen = useDrawerStatus() === "open";
-
-  if (isDrawerOpen || Platform.OS !== "web") {
-    return (
-      <View style={{ backgroundColor: "#fff", flex: 1 }}>{props.children}</View>
-    );
-  }
+  const width = useBreakpointValue({
+    base: '100%',
+    md: 780,
+  });
   return (
-    <View style={{ flexDirection: "row", flex: 1 }}>
-      <View style={{ flexDirection: "row", flex: 1 }}>{props.children}</View>
+    <View style={{ flex: 1, alignItems: 'center' }}>
+      <View style={{ width: width, padding: 10 }}>{props.children}</View>
     </View>
   );
 }
@@ -20,7 +17,7 @@ export default function Container(props) {
 const styles = StyleSheet.create({
   linearGradient: {
     flex: 1,
-    width: "100%",
-    height: "100%",
+    width: '100%',
+    height: '100%',
   },
 });

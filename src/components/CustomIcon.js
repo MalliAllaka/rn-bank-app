@@ -6,6 +6,8 @@ import {
   AntDesign,
   Entypo,
   Ionicons,
+  FontAwesome,
+  Feather,
 } from '@expo/vector-icons';
 import { View } from 'react-native';
 
@@ -17,6 +19,10 @@ export default function Icon({ name, fill, iconPack, size }) {
       return MaterialIcons;
     } else if (iconPack == 'ionicons') {
       return Ionicons;
+    } else if (iconPack == 'fontawesome') {
+      return FontAwesome;
+    } else if (iconPack == 'Feather') {
+      return Feather;
     }
   }, [iconPack]);
 

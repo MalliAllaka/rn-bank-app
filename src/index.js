@@ -1,6 +1,7 @@
 import React from 'react';
 import { StatusBar, SafeAreaView, StyleSheet, View } from 'react-native';
 import { NativeBaseProvider, extendTheme } from 'native-base';
+import { LinearGradient } from 'expo-linear-gradient';
 import * as Updates from 'expo-updates';
 import { Provider, useSelector } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -82,6 +83,11 @@ const theme = extendTheme({
     },
   },
 });
+const config = {
+  dependencies: {
+    'linear-gradient': LinearGradient,
+  },
+};
 
 export default function index() {
   const [loading, setLoading] = React.useState(false);
@@ -133,7 +139,7 @@ export default function index() {
             offsetTop={35}
             textStyle={{ textAlign: 'center' }}
           >
-            <NativeBaseProvider theme={theme}>
+            <NativeBaseProvider theme={theme} config={config}>
               <App />
             </NativeBaseProvider>
           </ToastProvider>

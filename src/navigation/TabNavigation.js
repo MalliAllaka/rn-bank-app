@@ -8,11 +8,11 @@ import { Feather, AntDesign, Entypo, Ionicons } from '@expo/vector-icons';
 import Gradient from '../components/Gradient';
 import Home from '../screens/Home';
 import Settings from '../screens/Settings';
+import AccountDetails from '../screens/AccountDetails';
 
 const Tab = createBottomTabNavigator();
 
 export default function TabNavigation() {
-  console.log('TabNavigation');
   return (
     <Tab.Navigator
       tabBar={(props) => <MyTabBar {...props} />}
@@ -26,11 +26,11 @@ export default function TabNavigation() {
         options={{ label: 'home', iconName: 'home', iconPack: Entypo }}
       />
       <Tab.Screen
-        name="Settings"
-        component={Settings}
+        name="AccountDetails"
+        component={AccountDetails}
         options={{
-          label: 'setting',
-          iconName: 'stats-chart-outline',
+          label: 'Account',
+          iconName: 'document-text',
           iconPack: Ionicons,
         }}
       />
