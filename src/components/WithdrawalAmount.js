@@ -37,8 +37,38 @@ initData = {
   method: '',
 };
 
-export default function WithdrawalAmount(props) {
-  const deposite = () => {};
+export default function WithdrawalAmount({ customer }) {
+  const [loading, setLoading] = React.useState(false);
+  const toast = useToast();
+  const dispatch = useAppDispatch();
+  const deposite = async (values) => {
+    setLoading(true);
+    const apiStatus = await dispatch(
+      commonActions.withdrawAmount({
+        ...values,
+        type: 'Withdraw',
+        customer: {
+          id: customer.id,
+        },
+      })
+    );
+    const { payload } = apiStatus;
+    console.log(payload);
+    if (!payload.status) {
+      toast.show(payload.message || 'request failed ', {
+        type: 'danger',
+        placement: 'top',
+        duration: 4000,
+        offset: 30,
+        animationType: 'slide-in',
+      });
+    } else {
+      navigation.replace('UserDetails', {
+        data: payload.data,
+      });
+    }
+    setLoading(false);
+  };
   return (
     <KeyboardAvoidingView style={{ flex: 1 }}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

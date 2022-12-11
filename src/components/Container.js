@@ -9,15 +9,11 @@ export default function Container(props) {
   });
   return (
     <View style={{ flex: 1, alignItems: 'center' }}>
-      <View style={{ width: width, padding: 10 }}>{props.children}</View>
+      <View style={{ width: width, padding: 10, flex: 1 }}>
+        {props.children}
+      </View>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  linearGradient: {
-    flex: 1,
-    width: '100%',
-    height: '100%',
-  },
-});
+const styles = StyleSheet.create({});

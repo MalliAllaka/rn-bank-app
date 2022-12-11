@@ -12,46 +12,45 @@ import Transaction from '../components/Transaction';
 
 export default function CustomerDetails({ route, navigation }) {
   const showBackButton = route?.params?.showBackButton;
+  const customer = route?.params?.customer;
   const [activeType, setActiveType] = React.useState('deposit');
 
-  const data = useSelector((state) => getUser(state));
-
   const userData = React.useMemo(() => {
-    if (data) {
+    if (customer) {
       let dataArray = [];
       dataArray.push({
         title: 'Account Number',
-        value: `${data.customer.accountNumber}`,
+        value: `${customer.accountNumber}`,
       });
       dataArray.push({
         title: 'Customer Id',
-        value: `${data.customer.customerId}`,
+        value: `${customer.customerId}`,
       });
       dataArray.push({
         title: 'Balance',
-        value: `${data.customer.balance}`,
+        value: `${customer.balance}`,
       });
       dataArray.push({
         title: 'Name',
-        value: `${data.customer.customerDetails.firstName} ${data.customer.customerDetails.lastName}`,
+        value: `${customer.customerDetails.firstName} ${customer.customerDetails.lastName}`,
       });
       dataArray.push({
         title: 'Age',
-        value: `${data.customer.customerDetails.age}`,
+        value: `${customer.customerDetails.age}`,
       });
       dataArray.push({
         title: 'E-Mail',
-        value: `${data.customer.customerDetails.email}`,
+        value: `${customer.customerDetails.email}`,
       });
       dataArray.push({
         title: 'Phone No',
-        value: `${data.customer.customerDetails.phoneNo}`,
+        value: `${customer.customerDetails.phoneNo}`,
       });
 
       return dataArray;
     }
     return [];
-  }, [data]);
+  }, [customer]);
 
   return (
     <Container>
@@ -81,7 +80,11 @@ export default function CustomerDetails({ route, navigation }) {
           </Button>
         </View>
         <View style={{ marginTop: 10 }}>
-          {activeType == 'withdraw' ? <WithdrawalAmount /> : <DepositAmount />}
+          {activeType == 'withdraw' ? (
+            <WithdrawalAmount customer={customer} />
+          ) : (
+            <DepositAmount customer={customer} />
+          )}
         </View>
         <Heading size="sm" style={{ paddingVertical: 10 }}>
           Latest Transactions
