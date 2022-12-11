@@ -14,6 +14,7 @@ export default function Customer(props) {
         navigation.navigate('CustomerDetails', {
           showBackButton: true,
           customer: customer,
+          customerId: customer.id,
         })
       }
       style={{ marginVertical: 5 }}

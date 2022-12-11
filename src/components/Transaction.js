@@ -1,13 +1,14 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Box, Text } from 'native-base';
+import moment from 'moment';
 import Icon from './CustomIcon';
 
 export default function Transaction(props) {
   const { transaction } = props;
 
   return (
-    <Box bg="secondary.100" rounded="xl">
+    <Box bg="secondary.100" rounded="xl" style={{ marginVertical: 5 }}>
       <View
         style={{
           flexDirection: 'row',
@@ -21,9 +22,15 @@ export default function Transaction(props) {
           }}
         >
           <Text style={{}} bold>
-            05 Dec 2022
+            {`${
+              transaction?.date
+                ? moment(transaction?.date).format('DD MMM YYYY')
+                : ''
+            }`}
           </Text>
-          <Text style={{}}>from / username /account</Text>
+          <Text
+            style={{}}
+          >{`${transaction?.from} / ${transaction?.method}`}</Text>
         </View>
         <View
           style={{
@@ -34,13 +41,15 @@ export default function Transaction(props) {
           }}
         >
           <Icon fill="black" name="rupee" iconPack="fontawesome" />
-          <Text style={{ textAlign: 'center', fontSize: 16 }}>100</Text>
+          <Text
+            style={{ textAlign: 'center', fontSize: 16 }}
+          >{`${transaction?.amount}`}</Text>
           <Text
             style={{ textAlign: 'center', paddingLeft: 5, fontSize: 16 }}
-            color="green.500"
+            color={transaction?.type == 'Withdraw' ? 'red.500' : 'green.500'}
             //   color="red.500"
           >
-            CR
+            {`${transaction?.type == 'Withdraw' ? 'DR' : 'CR'}`}
           </Text>
         </View>
       </View>
