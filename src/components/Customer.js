@@ -11,8 +11,12 @@ export default function Customer(props) {
   return (
     <TouchableOpacity
       onPress={() =>
-        navigation.navigate('CustomerDetails', { showBackButton: true })
+        navigation.navigate('CustomerDetails', {
+          showBackButton: true,
+          customer: customer,
+        })
       }
+      style={{ marginVertical: 5 }}
     >
       <Box bg="secondary.100" rounded="xl">
         <View
@@ -30,9 +34,12 @@ export default function Customer(props) {
             }}
           >
             <Text style={{}} bold>
-              Malli babu
+              {`${customer?.customerDetails?.firstName} ${customer?.customerDetails?.lastName}`}
             </Text>
-            <Text style={{}}>Saving account</Text>
+            <Text style={{}}>
+              {`${customer?.accountNumber}`} -
+              {`${customer?.accountType?.accType}`}
+            </Text>
           </View>
           <View
             style={{
@@ -53,7 +60,9 @@ export default function Customer(props) {
                 iconPack="fontawesome"
                 size="14"
               />
-              <Text style={{ textAlign: 'center', fontSize: 16 }}>100</Text>
+              <Text
+                style={{ textAlign: 'center', fontSize: 16 }}
+              >{`${customer?.balance}`}</Text>
             </View>
             <Icon fill="black" name="arrowright" iconPack="AntDesign" />
           </View>

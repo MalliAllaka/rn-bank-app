@@ -37,6 +37,7 @@
     "expo-status-bar": "~1.3.0",
     "expo-updates": "~0.13.4",
     "formik": "^2.2.9",
+    "jsog": "git+https://github.com/benjamin-hg/jsog.git#e4db0ccdc9bac095cd72122c40f7629d7137e75d",
     "lodash": "^4.17.21",
     "native-base": "3.4.0",
     "react": "17.0.2",

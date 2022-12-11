@@ -1,6 +1,7 @@
 import axios from 'axios';
+import jsog from 'jsog';
 
-export const apiBaseUrl = 'http://192.168.150.100:7777';
+export const apiBaseUrl = 'http://192.168.150.105:7777';
 
 const api = axios.create({
   baseURL: apiBaseUrl,
@@ -14,6 +15,17 @@ export const setApiHeaders = (token) => {
     api.defaults.headers.common.Authorization = `Bearer ${token}`;
   }
 };
+
+api.interceptors.response.use(
+  function (response) {
+    response.data = jsog.decode(response.data);
+
+    return response;
+  },
+  async function (error) {
+    return Promise.reject(error);
+  }
+);
 
 const toParam = (params) => {
   var esc = encodeURIComponent;
