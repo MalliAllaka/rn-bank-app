@@ -37,11 +37,11 @@ initData = {
   method: '',
 };
 
-export default function WithdrawalAmount({ customer }) {
+export default function WithdrawalAmount({ customer, setCustomer }) {
   const [loading, setLoading] = React.useState(false);
   const toast = useToast();
   const dispatch = useAppDispatch();
-  const deposite = async (values) => {
+  const withdraw = async (values, setSubmitting, resetForm) => {
     setLoading(true);
     const apiStatus = await dispatch(
       commonActions.withdrawAmount({
@@ -63,10 +63,17 @@ export default function WithdrawalAmount({ customer }) {
         animationType: 'slide-in',
       });
     } else {
-      navigation.replace('UserDetails', {
-        data: payload.data,
+      setCustomer(payload.data.customer);
+      toast.show('request done successfully ', {
+        type: 'success',
+        placement: 'top',
+        duration: 4000,
+        offset: 30,
+        animationType: 'slide-in',
       });
     }
+    resetForm(initData);
+    setSubmitting(false);
     setLoading(false);
   };
   return (
@@ -76,8 +83,8 @@ export default function WithdrawalAmount({ customer }) {
           enableReinitialize
           initialValues={initData}
           validationSchema={validationSchema}
-          onSubmit={(values) => {
-            deposite(values);
+          onSubmit={(values, { setSubmitting, resetForm }) => {
+            withdraw(values, setSubmitting, resetForm);
           }}
         >
           {({

@@ -27,21 +27,58 @@ var mailRegExp = /\S+@\S+\.\S+/;
 const validationSchema = Yup.object().shape({
   amount: Yup.string().required('Please enter a amount'),
   method: Yup.string().required('Please enter a payment method'),
-  depositor: Yup.string().required('Please select a depositor Name'),
+  from: Yup.string().required('Please select a depositor Name'),
 });
 let initData = {
   amount: '',
   method: '',
-  depositor: '',
+  from: '',
 };
 initData = {
   amount: '',
   method: '',
-  depositor: '',
+  from: '',
 };
 
-export default function DepositAmount(props) {
-  const deposite = () => {};
+export default function DepositAmount({ customer, setCustomer }) {
+  const [loading, setLoading] = React.useState(false);
+  const toast = useToast();
+  const dispatch = useAppDispatch();
+  const deposite = async (values, setSubmitting, resetForm) => {
+    setLoading(true);
+    const apiStatus = await dispatch(
+      commonActions.depositeAmount({
+        ...values,
+        type: 'Deposite',
+        customer: {
+          id: customer.id,
+        },
+      })
+    );
+    const { payload } = apiStatus;
+    console.log(payload);
+    if (!payload.status) {
+      toast.show(payload.message || 'request failed ', {
+        type: 'danger',
+        placement: 'top',
+        duration: 4000,
+        offset: 30,
+        animationType: 'slide-in',
+      });
+    } else {
+      setCustomer(payload.data.customer);
+      toast.show('request done successfully ', {
+        type: 'success',
+        placement: 'top',
+        duration: 4000,
+        offset: 30,
+        animationType: 'slide-in',
+      });
+    }
+    resetForm(initData);
+    setSubmitting(false);
+    setLoading(false);
+  };
   return (
     <KeyboardAvoidingView style={{ flex: 1 }}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -49,8 +86,8 @@ export default function DepositAmount(props) {
           enableReinitialize
           initialValues={initData}
           validationSchema={validationSchema}
-          onSubmit={(values) => {
-            deposite(values);
+          onSubmit={(values, { setSubmitting, resetForm }) => {
+            deposite(values, setSubmitting, resetForm);
           }}
         >
           {({
@@ -123,13 +160,13 @@ export default function DepositAmount(props) {
                     >
                       <TextField
                         style={styles.textField}
-                        value={values.depositor}
+                        value={values.from}
                         label="Depositor Name"
-                        onChangeText={handleChange('depositor')}
-                        onBlur={handleBlur('depositor')}
+                        onChangeText={handleChange('from')}
+                        onBlur={handleBlur('from')}
                       />
-                      {touched.depositor && errors.depositor ? (
-                        <ErrorMessage data={errors.depositor} />
+                      {touched.from && errors.from ? (
+                        <ErrorMessage data={errors.from} />
                       ) : null}
                     </View>
                   </View>

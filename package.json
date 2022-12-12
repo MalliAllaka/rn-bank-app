@@ -39,6 +39,7 @@
     "formik": "^2.2.9",
     "jsog": "git+https://github.com/benjamin-hg/jsog.git#e4db0ccdc9bac095cd72122c40f7629d7137e75d",
     "lodash": "^4.17.21",
+    "moment": "^2.29.4",
     "native-base": "3.4.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
