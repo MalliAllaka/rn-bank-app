@@ -7,9 +7,8 @@ import { getUser } from '../selector/auth';
 import Icon from './CustomIcon';
 
 export default function AccountCard(props) {
+  const { user } = props;
   const navigation = useNavigation();
-
-  const user = useSelector((state) => getUser(state));
 
   return (
     <Box

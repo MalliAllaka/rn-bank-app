@@ -105,7 +105,7 @@ export default function Header({
         </View>
 
         <View style={styles.left}>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() => {
               navigation.navigate('Notification');
             }}
@@ -119,7 +119,7 @@ export default function Header({
                 color: 'gray.400',
               }}
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </View>
     </>

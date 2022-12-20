@@ -167,3 +167,46 @@ export const getCustomer = createAsyncThunk(
     return { status: false, data: null };
   }
 );
+
+export const getEmployees = createAsyncThunk(
+  'common/getCustomers',
+  async (data, { dispatch, getState }) => {
+    try {
+      const response = await api({
+        method: 'get',
+        url: `customer/findAll?pageNumber=${data.pageNumber}&pageSize=${data.pageSize}`,
+        data: data,
+      });
+      return { status: true, data: response.data };
+    } catch (error) {
+      console.log(error);
+      const errorMessage = _.get(
+        error,
+        'response.data.message',
+        JSON.stringify(error)
+      );
+    }
+    return { status: false, data: null };
+  }
+);
+
+export const getSearchEmployees = createAsyncThunk(
+  'common/searchCustomers',
+  async (data, { dispatch, getState }) => {
+    try {
+      const response = await api({
+        method: 'get',
+        url: `customer/searchCustomers?pageNumber=${data.pageNumber}&pageSize=${data.pageSize}&searchText=${data.searchText}`,
+      });
+      return { status: true, data: response.data };
+    } catch (error) {
+      console.log(error);
+      const errorMessage = _.get(
+        error,
+        'response.data.message',
+        JSON.stringify(error)
+      );
+    }
+    return { status: false, data: null };
+  }
+);
