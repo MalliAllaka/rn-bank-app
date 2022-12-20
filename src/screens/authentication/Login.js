@@ -8,6 +8,8 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Platform,
+  ScrollView,
+  Dimensions,
 } from 'react-native';
 import { Pressable, Text, useBreakpointValue } from 'native-base';
 import { useToast } from 'react-native-toast-notifications';
@@ -27,7 +29,7 @@ export default function Login() {
   const toast = useToast();
   const dispatch = useAppDispatch();
 
-  const [username, setUsername] = React.useState('malli8');
+  const [username, setUsername] = React.useState('malli9');
   const [password, setPassword] = React.useState('1234');
   const [loading, setLoading] = React.useState(false);
 
@@ -56,123 +58,99 @@ export default function Login() {
   };
 
   return (
-    <View
+    <ScrollView
       style={{
         flex: 1,
-        justifyContent: 'center',
-        backgroundColor: '#fff',
-        alignSelf: 'center',
         width: '100%',
+        backgroundColor: '#fff',
       }}
     >
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={{ flex: 1 }}
+      <View
+        style={{
+          height: Dimensions.get('window').height,
+          paddingHorizontal: 20,
+        }}
       >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View
-            style={{
-              flex: 1,
-              justifyContent: 'center',
-              backgroundColor: '#fff',
-              alignSelf: 'center',
-              width: width,
-            }}
-          >
+        <View
+          style={{
+            height: Dimensions.get('window').height * 0.45,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Text fontSize="2xl" color={'black'}>
+            Welcome to Online Bank
+          </Text>
+        </View>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        >
+          <Text fontSize="xl" style={{ paddingVertical: 5 }}>
+            Sign In
+          </Text>
+          <View style={{}}>
             <View
               style={{
-                flex: 2,
-                justifyContent: 'center',
-                alignItems: 'center',
+                flexDirection: 'column',
+                width: '100%',
               }}
             >
-              <Text fontSize="2xl" color={'black'}>
-                Welcome to Online Bank
-              </Text>
-            </View>
-
-            <View
-              style={{
-                flex: 3,
-                backgroundColor: '#fff',
-                borderTopLeftRadius: 40,
-                borderTopRightRadius: 40,
-                paddingTop: 20,
-                paddingHorizontal: 25,
-              }}
-            >
-              <Text fontSize="xl" style={{ paddingVertical: 5 }}>
-                Sign In
-              </Text>
-              <View style={{}}>
-                <View
-                  style={{
-                    flexDirection: 'column',
-                    width: '100%',
-                  }}
-                >
-                  <TextField
-                    style={styles.textField}
-                    value={username}
-                    label="Email Address"
-                    onChangeText={(text) => setUsername(text)}
-                  />
-                  <TextField
-                    style={styles.textField}
-                    value={password}
-                    label="Password"
-                    onChangeText={(text) => setPassword(text)}
-                    password
-                  />
-                </View>
-
-                <CheckBoxField />
-              </View>
-              <View style={{ marginTop: 10, marginBottom: 20 }}>
-                <TouchableOpacity onPress={doLogin} style={{}}>
-                  <Gradient
-                    showGradient
-                    style={{
-                      height: 42,
-                      width: '65%',
-                      alignSelf: 'center',
-                      justifyContent: 'center',
-                      borderRadius: 20,
-                      marginVertical: 20,
-                    }}
-                  >
-                    <Text
-                      bold
-                      fontSize="md"
-                      color={'white'}
-                      style={{ textAlign: 'center' }}
-                    >
-                      Sign In
-                    </Text>
-                  </Gradient>
-                </TouchableOpacity>
-
-                <Text style={{ textAlign: 'center' }} color="primary.400">
-                  Forgot Password?
-                </Text>
-              </View>
-              <View style={{ justifyContent: 'center', marginTop: 30 }}>
-                <Text style={{ textAlign: 'center' }}>
-                  Are you new to Online Bank?
-                </Text>
-                <TouchableOpacity
-                  onPress={() => navigation.navigate('Register')}
-                >
-                  <Text style={{ textAlign: 'center' }} color="primary.400">
-                    Create an Account
-                  </Text>
-                </TouchableOpacity>
-              </View>
+              <TextField
+                style={styles.textField}
+                value={username}
+                label="Username"
+                onChangeText={(text) => setUsername(text)}
+              />
+              <TextField
+                style={styles.textField}
+                value={password}
+                label="Password"
+                onChangeText={(text) => setPassword(text)}
+                password
+              />
             </View>
           </View>
-        </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
-    </View>
+          <View style={{ marginTop: 10, marginBottom: 20 }}>
+            <TouchableOpacity onPress={doLogin} style={{}}>
+              <Gradient
+                showGradient
+                style={{
+                  height: 42,
+                  width: '65%',
+                  alignSelf: 'center',
+                  justifyContent: 'center',
+                  borderRadius: 20,
+                  marginVertical: 20,
+                }}
+              >
+                <Text
+                  bold
+                  fontSize="md"
+                  color={'white'}
+                  style={{ textAlign: 'center' }}
+                >
+                  Sign In
+                </Text>
+              </Gradient>
+            </TouchableOpacity>
+
+            <Text style={{ textAlign: 'center' }} color="primary.400">
+              Forgot Password?
+            </Text>
+          </View>
+          <View style={{ justifyContent: 'center', marginTop: 30 }}>
+            <Text style={{ textAlign: 'center' }}>
+              Are you new to Online Bank?
+            </Text>
+            <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+              <Text style={{ textAlign: 'center' }} color="primary.400">
+                Create an Account
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </KeyboardAvoidingView>
+      </View>
+    </ScrollView>
   );
 }
 

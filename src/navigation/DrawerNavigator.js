@@ -15,6 +15,7 @@ import { getUser } from '../selector/auth';
 import CustomerList from '../screens/CustomerList';
 import AccountDetails from '../screens/AccountDetails';
 import CustomerDetails from '../screens/CustomerDetails';
+import EmployeeList from '../screens/EmployeeList';
 const Drawer = createDrawerNavigator();
 
 export default function DrawerNavigator(props) {
@@ -57,29 +58,33 @@ export default function DrawerNavigator(props) {
             icon: 'list',
             pack: 'Feather',
           }}
-          initialParams={{ customerId: 42 }}
+          initialParams={{
+            showBackButton: false,
+            customerId: user?.customer?.id,
+            name: `${user?.customer.customerDetails.firstName} ${user?.customer.customerDetails.lastName}`,
+          }}
         />
       ) : null}
-      <Drawer.Screen
-        name="CustomerRoutes"
-        component={CustomerRoutes}
-        options={{ title: 'Customers', icon: 'users', pack: 'Feather' }}
-      />
+      {user.userType == 'CUSTOMER' ? (
+        <Drawer.Screen
+          name="CustomerRoutes"
+          component={CustomerRoutes}
+          options={{ title: 'Customers', icon: 'users', pack: 'Feather' }}
+        />
+      ) : null}
+
+      {user.userType == 'CUSTOMER' ? (
+        <Drawer.Screen
+          name="EmployeeRoutes"
+          component={EmployeeRoutes}
+          options={{ title: 'Employee', icon: 'users', pack: 'Feather' }}
+        />
+      ) : null}
 
       <Drawer.Screen
         name="Setting"
         component={Settings}
         options={{ title: 'Setting', icon: 'setting', pack: 'AntDesign' }}
-      />
-
-      <Drawer.Screen
-        name="Notification"
-        component={Notification}
-        options={{
-          title: 'Notification',
-          icon: 'notifications-outline',
-          pack: 'ionicons',
-        }}
       />
     </Drawer.Navigator>
   );
@@ -104,7 +109,7 @@ const CustomerRoutes = () => {
           headerShown: false,
         }}
       />
-      <Drawer.Screen
+      <CustomerStack.Screen
         name="CustomerTransactions"
         component={TotalTransactions}
         options={{
@@ -112,5 +117,35 @@ const CustomerRoutes = () => {
         }}
       />
     </CustomerStack.Navigator>
+  );
+};
+
+const EmployeeStack = createStackNavigator();
+
+const EmployeeRoutes = () => {
+  return (
+    <EmployeeStack.Navigator>
+      <EmployeeStack.Screen
+        name="EmployeeList"
+        component={EmployeeList}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <EmployeeStack.Screen
+        name="CustomerDetails"
+        component={CustomerDetails}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <EmployeeStack.Screen
+        name="CustomerTransactions"
+        component={TotalTransactions}
+        options={{
+          headerShown: false,
+        }}
+      />
+    </EmployeeStack.Navigator>
   );
 };

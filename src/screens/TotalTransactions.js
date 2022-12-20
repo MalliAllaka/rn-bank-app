@@ -33,7 +33,7 @@ export default function TotalTransactions({ route, navigation }) {
       const response = await dispatch(
         getTransactions({
           pageNumber: currentPage,
-          pageSize: 10,
+          pageSize: 15,
           customerId: customerId,
         })
       );

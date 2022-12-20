@@ -126,7 +126,6 @@ export default function CustomerDetails({ route, navigation }) {
         <TouchableOpacity
           onPress={() =>
             navigation.navigate('CustomerTransactions', {
-              customerId: 12,
               showBackButton: true,
               customerId: customer?.id,
               name: `${customer.customerDetails.firstName} ${customer.customerDetails.lastName}`,
