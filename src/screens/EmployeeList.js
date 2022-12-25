@@ -80,6 +80,15 @@ export default function EmployeeList(props) {
 
   return (
     <Container>
+      <View style={{ marginBottom: 10, alignItems: 'flex-end' }}>
+        <Button
+          rounded="none"
+          onPress={() => navigation.navigate('AddEmployee')}
+        >
+          Add Employee
+        </Button>
+      </View>
+
       <View style={{ marginBottom: 10 }}>
         <Input
           w="100%"

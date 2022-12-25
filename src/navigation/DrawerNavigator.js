@@ -16,6 +16,8 @@ import CustomerList from '../screens/CustomerList';
 import AccountDetails from '../screens/AccountDetails';
 import CustomerDetails from '../screens/CustomerDetails';
 import EmployeeList from '../screens/EmployeeList';
+import AddEmployee from '../screens/AddEmployee';
+
 const Drawer = createDrawerNavigator();
 
 export default function DrawerNavigator(props) {
@@ -133,8 +135,8 @@ const EmployeeRoutes = () => {
         }}
       />
       <EmployeeStack.Screen
-        name="CustomerDetails"
-        component={CustomerDetails}
+        name="AddEmployee"
+        component={AddEmployee}
         options={{
           headerShown: false,
         }}
