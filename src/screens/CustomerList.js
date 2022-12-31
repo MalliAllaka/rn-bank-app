@@ -81,8 +81,26 @@ export default function CustomerList(props) {
     }
   }, [pageNumber]);
 
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      setSearchText('');
+      setLoadMore(true);
+      setPageNumber(0);
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
   return (
     <Container>
+      <View style={{ marginBottom: 10, alignItems: 'flex-end' }}>
+        <Button
+          rounded="none"
+          onPress={() => navigation.navigate('AddCustomer')}
+        >
+          Add Customer
+        </Button>
+      </View>
       <View style={{ marginBottom: 10 }}>
         <Input
           w="100%"

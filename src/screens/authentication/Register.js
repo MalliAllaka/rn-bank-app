@@ -21,6 +21,8 @@ import TextField from '../../components/InputField';
 import CheckBoxField from '../../components/CheckBoxField';
 import { useAppDispatch } from '../../app/store';
 import ErrorMessage from '../../components/ErrorMessage';
+import Icon from '../../components/CustomIcon';
+import Container from '../../components/Container';
 
 var mailRegExp = /\S+@\S+\.\S+/;
 
@@ -63,8 +65,10 @@ initData = {
   phoneNo: '8096893131',
 };
 
-export default function Register() {
+export default function Register({ route }) {
   const navigation = useNavigation();
+  const fromAdmin = route?.params?.fromAdmin;
+
   const width = useBreakpointValue({
     base: '100%',
     md: 420,
@@ -92,9 +96,17 @@ export default function Register() {
         animationType: 'slide-in',
       });
     } else {
-      navigation.replace('UserDetails', {
-        data: payload.data,
-      });
+      if (fromAdmin) {
+        navigation.replace('CustomerDetails', {
+          showBackButton: true,
+          customer: payload.data.customer,
+          customerId: payload.data.customer.id,
+        });
+      } else {
+        navigation.replace('UserDetails', {
+          data: payload.data,
+        });
+      }
     }
     setLoading(false);
   };
@@ -109,268 +121,289 @@ export default function Register() {
         width: '100%',
       }}
     >
-      <ScrollView
-        style={{
-          flex: 1,
-        }}
-      >
-        <KeyboardAvoidingView style={{ flex: 1 }}>
-          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <Formik
-              enableReinitialize
-              initialValues={initData}
-              validationSchema={validationSchema}
-              onSubmit={(values) => {
-                registration(values);
-              }}
+      <Container>
+        {fromAdmin ? (
+          <View style={{ flexDirection: 'row' }}>
+            <TouchableOpacity
+              onPress={() => navigation.pop()}
+              style={{ paddingBottom: 10 }}
             >
-              {({
-                handleChange,
-                handleBlur,
-                handleSubmit,
-                values,
-                touched,
-                errors,
-              }) => {
-                console.log(errors);
-                return (
-                  <View
-                    style={{
-                      flex: 1,
-                      justifyContent: 'center',
-                      backgroundColor: '#fff',
-                      alignSelf: 'center',
-                      width: width,
-                    }}
-                  >
+              <Icon
+                fill="black"
+                name="arrowleft"
+                iconPack="AntDesign"
+                size="6"
+              />
+            </TouchableOpacity>
+            <Text fontSize="lg">{`Add Customer`}</Text>
+          </View>
+        ) : null}
+        <ScrollView
+          style={{
+            flex: 1,
+          }}
+        >
+          <KeyboardAvoidingView style={{ flex: 1 }}>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+              <Formik
+                enableReinitialize
+                initialValues={initData}
+                validationSchema={validationSchema}
+                onSubmit={(values) => {
+                  registration(values);
+                }}
+              >
+                {({
+                  handleChange,
+                  handleBlur,
+                  handleSubmit,
+                  values,
+                  touched,
+                  errors,
+                }) => {
+                  console.log(errors);
+                  return (
                     <View
                       style={{
-                        flex: 3,
+                        flex: 1,
+                        justifyContent: 'center',
                         backgroundColor: '#fff',
-                        borderTopLeftRadius: 40,
-                        borderTopRightRadius: 40,
-                        paddingTop: 20,
-                        paddingHorizontal: 25,
+                        alignSelf: 'center',
+                        width: width,
                       }}
                     >
-                      <View style={{}}>
-                        <View
-                          style={{
-                            flexDirection: 'column',
-                            width: '100%',
-                          }}
-                        >
-                          <TextField
-                            style={styles.textField}
-                            value={values.firstName}
-                            label="First Name"
-                            onChangeText={handleChange('firstName')}
-                            onBlur={handleBlur('firstName')}
-                          />
-                          {touched.firstName && errors.firstName ? (
-                            <ErrorMessage data={errors.firstName} />
-                          ) : null}
-                        </View>
-                        <View
-                          style={{
-                            flexDirection: 'column',
-                            width: '100%',
-                          }}
-                        >
-                          <TextField
-                            style={styles.textField}
-                            value={values.lastName}
-                            label="Last Name"
-                            onChangeText={handleChange('lastName')}
-                            onBlur={handleBlur('lastName')}
-                          />
-                          {touched.lastName && errors.lastName ? (
-                            <ErrorMessage data={errors.lastName} />
-                          ) : null}
-                        </View>
-                        <View
-                          style={{
-                            flexDirection: 'column',
-                            width: '100%',
-                          }}
-                        >
-                          <TextField
-                            style={styles.textField}
-                            value={values.age}
-                            label="Age"
-                            onChangeText={handleChange('age')}
-                            onBlur={handleBlur('age')}
-                          />
-                          {touched.age && errors.age ? (
-                            <ErrorMessage data={errors.age} />
-                          ) : null}
-                        </View>
-
-                        <View
-                          style={{
-                            flexDirection: 'column',
-                            width: '100%',
-                          }}
-                        >
-                          <TextField
-                            style={styles.textField}
-                            value={values.address}
-                            label="Address"
-                            onChangeText={handleChange('address')}
-                            onBlur={handleBlur('address')}
-                          />
-                          {touched.address && errors.address ? (
-                            <ErrorMessage data={errors.address} />
-                          ) : null}
-                        </View>
-
-                        <View
-                          style={{
-                            flexDirection: 'column',
-                            width: '100%',
-                          }}
-                        >
-                          <TextField
-                            style={styles.textField}
-                            value={values.country}
-                            label="Country"
-                            onChangeText={handleChange('country')}
-                            onBlur={handleBlur('country')}
-                          />
-                          {touched.country && errors.country ? (
-                            <ErrorMessage data={errors.country} />
-                          ) : null}
-                        </View>
-
-                        <View
-                          style={{
-                            flexDirection: 'column',
-                            width: '100%',
-                          }}
-                        >
-                          <TextField
-                            style={styles.textField}
-                            value={values.email}
-                            label="Email"
-                            onChangeText={handleChange('email')}
-                            onBlur={handleBlur('email')}
-                          />
-                          {touched.email && errors.email ? (
-                            <ErrorMessage data={errors.email} />
-                          ) : null}
-                        </View>
-
-                        <View
-                          style={{
-                            flexDirection: 'column',
-                            width: '100%',
-                          }}
-                        >
-                          <TextField
-                            style={styles.textField}
-                            value={values.phoneNo}
-                            label="Phone No"
-                            onChangeText={handleChange('phoneNo')}
-                          />
-                          {touched.phoneNo && errors.phoneNo ? (
-                            <ErrorMessage data={errors.phoneNo} />
-                          ) : null}
-                        </View>
-                        <Select
-                          selectedValue={values.accountType}
-                          minWidth="200"
-                          accessibilityLabel="Choose account type"
-                          placeholder="Choose account type"
-                          _selectedItem={{
-                            bg: 'teal.600',
-                          }}
-                          mt={1}
-                          onValueChange={handleChange('accountType')}
-                          onBlur={handleBlur('accountType')}
-                        >
-                          <Select.Item label="Saving account" value="1" />
-                          <Select.Item label="Current account" value="2" />
-                          <Select.Item
-                            label="Fixed deposit account"
-                            value="3"
-                          />
-                          <Select.Item label="Salary account" value="4" />
-                        </Select>
-                        {touched.accountType && errors.accountType ? (
-                          <ErrorMessage data={errors.accountType} />
-                        ) : null}
-                        <View
-                          style={{
-                            flexDirection: 'column',
-                            width: '100%',
-                          }}
-                        >
-                          <TextField
-                            style={styles.textField}
-                            value={values.password}
-                            label="Password"
-                            onChangeText={handleChange('password')}
-                            onBlur={handleBlur('password')}
-                            password
-                          />
-                          {touched.password && errors.password ? (
-                            <ErrorMessage data={errors.password} />
-                          ) : null}
-                        </View>
-                        <View
-                          style={{
-                            flexDirection: 'column',
-                            width: '100%',
-                          }}
-                        >
-                          <TextField
-                            style={styles.textField}
-                            value={values.confirmPassword}
-                            label="Confirm Password"
-                            onChangeText={handleChange('confirmPassword')}
-                            onBlur={handleBlur('confirmPassword')}
-                            password
-                          />
-                          {touched.confirmPassword && errors.confirmPassword ? (
-                            <ErrorMessage data={errors.confirmPassword} />
-                          ) : null}
-                          {values.confirmPassword != values.password ? (
-                            <ErrorMessage data={'confirm password is Wrong'} />
-                          ) : null}
-                        </View>
-                      </View>
-                      <View style={{ marginTop: 10, marginBottom: 20 }}>
-                        <TouchableOpacity onPress={handleSubmit} style={{}}>
-                          <Gradient
-                            showGradient
+                      <View
+                        style={{
+                          flex: 3,
+                          backgroundColor: '#fff',
+                          borderTopLeftRadius: 40,
+                          borderTopRightRadius: 40,
+                          paddingTop: 20,
+                          paddingHorizontal: 25,
+                        }}
+                      >
+                        <View style={{}}>
+                          <View
                             style={{
-                              height: 42,
-                              width: '65%',
-                              alignSelf: 'center',
-                              justifyContent: 'center',
-                              borderRadius: 20,
-                              marginVertical: 20,
+                              flexDirection: 'column',
+                              width: '100%',
                             }}
                           >
-                            <Text
-                              bold
-                              fontSize="md"
-                              color={'white'}
-                              style={{ textAlign: 'center' }}
+                            <TextField
+                              style={styles.textField}
+                              value={values.firstName}
+                              label="First Name"
+                              onChangeText={handleChange('firstName')}
+                              onBlur={handleBlur('firstName')}
+                            />
+                            {touched.firstName && errors.firstName ? (
+                              <ErrorMessage data={errors.firstName} />
+                            ) : null}
+                          </View>
+                          <View
+                            style={{
+                              flexDirection: 'column',
+                              width: '100%',
+                            }}
+                          >
+                            <TextField
+                              style={styles.textField}
+                              value={values.lastName}
+                              label="Last Name"
+                              onChangeText={handleChange('lastName')}
+                              onBlur={handleBlur('lastName')}
+                            />
+                            {touched.lastName && errors.lastName ? (
+                              <ErrorMessage data={errors.lastName} />
+                            ) : null}
+                          </View>
+                          <View
+                            style={{
+                              flexDirection: 'column',
+                              width: '100%',
+                            }}
+                          >
+                            <TextField
+                              style={styles.textField}
+                              value={values.age}
+                              label="Age"
+                              onChangeText={handleChange('age')}
+                              onBlur={handleBlur('age')}
+                            />
+                            {touched.age && errors.age ? (
+                              <ErrorMessage data={errors.age} />
+                            ) : null}
+                          </View>
+
+                          <View
+                            style={{
+                              flexDirection: 'column',
+                              width: '100%',
+                            }}
+                          >
+                            <TextField
+                              style={styles.textField}
+                              value={values.address}
+                              label="Address"
+                              onChangeText={handleChange('address')}
+                              onBlur={handleBlur('address')}
+                            />
+                            {touched.address && errors.address ? (
+                              <ErrorMessage data={errors.address} />
+                            ) : null}
+                          </View>
+
+                          <View
+                            style={{
+                              flexDirection: 'column',
+                              width: '100%',
+                            }}
+                          >
+                            <TextField
+                              style={styles.textField}
+                              value={values.country}
+                              label="Country"
+                              onChangeText={handleChange('country')}
+                              onBlur={handleBlur('country')}
+                            />
+                            {touched.country && errors.country ? (
+                              <ErrorMessage data={errors.country} />
+                            ) : null}
+                          </View>
+
+                          <View
+                            style={{
+                              flexDirection: 'column',
+                              width: '100%',
+                            }}
+                          >
+                            <TextField
+                              style={styles.textField}
+                              value={values.email}
+                              label="Email"
+                              onChangeText={handleChange('email')}
+                              onBlur={handleBlur('email')}
+                            />
+                            {touched.email && errors.email ? (
+                              <ErrorMessage data={errors.email} />
+                            ) : null}
+                          </View>
+
+                          <View
+                            style={{
+                              flexDirection: 'column',
+                              width: '100%',
+                            }}
+                          >
+                            <TextField
+                              style={styles.textField}
+                              value={values.phoneNo}
+                              label="Phone No"
+                              onChangeText={handleChange('phoneNo')}
+                            />
+                            {touched.phoneNo && errors.phoneNo ? (
+                              <ErrorMessage data={errors.phoneNo} />
+                            ) : null}
+                          </View>
+                          <Select
+                            selectedValue={values.accountType}
+                            minWidth="200"
+                            accessibilityLabel="Choose account type"
+                            placeholder="Choose account type"
+                            _selectedItem={{
+                              bg: 'teal.600',
+                            }}
+                            mt={1}
+                            onValueChange={handleChange('accountType')}
+                            onBlur={handleBlur('accountType')}
+                          >
+                            <Select.Item label="Saving account" value="1" />
+                            <Select.Item label="Current account" value="2" />
+                            <Select.Item
+                              label="Fixed deposit account"
+                              value="3"
+                            />
+                            <Select.Item label="Salary account" value="4" />
+                          </Select>
+                          {touched.accountType && errors.accountType ? (
+                            <ErrorMessage data={errors.accountType} />
+                          ) : null}
+                          <View
+                            style={{
+                              flexDirection: 'column',
+                              width: '100%',
+                            }}
+                          >
+                            <TextField
+                              style={styles.textField}
+                              value={values.password}
+                              label="Password"
+                              onChangeText={handleChange('password')}
+                              onBlur={handleBlur('password')}
+                              password
+                            />
+                            {touched.password && errors.password ? (
+                              <ErrorMessage data={errors.password} />
+                            ) : null}
+                          </View>
+                          <View
+                            style={{
+                              flexDirection: 'column',
+                              width: '100%',
+                            }}
+                          >
+                            <TextField
+                              style={styles.textField}
+                              value={values.confirmPassword}
+                              label="Confirm Password"
+                              onChangeText={handleChange('confirmPassword')}
+                              onBlur={handleBlur('confirmPassword')}
+                              password
+                            />
+                            {touched.confirmPassword &&
+                            errors.confirmPassword ? (
+                              <ErrorMessage data={errors.confirmPassword} />
+                            ) : null}
+                            {values.confirmPassword != values.password ? (
+                              <ErrorMessage
+                                data={'confirm password is Wrong'}
+                              />
+                            ) : null}
+                          </View>
+                        </View>
+                        <View style={{ marginTop: 10, marginBottom: 20 }}>
+                          <TouchableOpacity onPress={handleSubmit} style={{}}>
+                            <Gradient
+                              showGradient
+                              style={{
+                                height: 42,
+                                width: '65%',
+                                alignSelf: 'center',
+                                justifyContent: 'center',
+                                borderRadius: 20,
+                                marginVertical: 20,
+                              }}
                             >
-                              registration
-                            </Text>
-                          </Gradient>
-                        </TouchableOpacity>
+                              <Text
+                                bold
+                                fontSize="md"
+                                color={'white'}
+                                style={{ textAlign: 'center' }}
+                              >
+                                registration
+                              </Text>
+                            </Gradient>
+                          </TouchableOpacity>
+                        </View>
                       </View>
                     </View>
-                  </View>
-                );
-              }}
-            </Formik>
-          </TouchableWithoutFeedback>
-        </KeyboardAvoidingView>
-      </ScrollView>
+                  );
+                }}
+              </Formik>
+            </TouchableWithoutFeedback>
+          </KeyboardAvoidingView>
+        </ScrollView>
+      </Container>
     </View>
   );
 }

@@ -17,6 +17,7 @@ import AccountDetails from '../screens/AccountDetails';
 import CustomerDetails from '../screens/CustomerDetails';
 import EmployeeList from '../screens/EmployeeList';
 import AddEmployee from '../screens/AddEmployee';
+import Register from '../screens/authentication/Register';
 
 const Drawer = createDrawerNavigator();
 
@@ -120,6 +121,16 @@ const CustomerRoutes = () => {
         component={TotalTransactions}
         options={{
           headerShown: false,
+        }}
+      />
+      <CustomerStack.Screen
+        name="AddCustomer"
+        component={Register}
+        options={{
+          headerShown: false,
+        }}
+        initialParams={{
+          fromAdmin: true,
         }}
       />
     </CustomerStack.Navigator>

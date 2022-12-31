@@ -62,7 +62,7 @@ export default function AddEmployee({ route }) {
     role: Yup.string().required('Please select a account type'),
     firstName: Yup.string().required('Please enter a first name'),
     lastName: Yup.string().required('Please enter a last name'),
-    age: Yup.string().required('Please enter a age'),
+    age: Yup.number().required('Please enter a age'),
     address: Yup.string().required('Please enter a address'),
     country: Yup.string().required('Please enter a country name'),
     email: Yup.string()

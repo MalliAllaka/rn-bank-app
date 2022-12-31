@@ -35,6 +35,10 @@ export default function CustomerDetails({ route, navigation }) {
         value: `${customer.customerId}`,
       });
       dataArray.push({
+        title: 'User Name',
+        value: `${customer.user.username}`,
+      });
+      dataArray.push({
         title: 'Balance',
         value: `${customer.balance}`,
       });
