@@ -29,6 +29,7 @@ export default function Header({
   route,
   options,
   setDrawerStatus,
+  flexDir,
 }) {
   const user = useSelector((state) => getUser(state));
 
@@ -64,41 +65,45 @@ export default function Header({
         }}
       >
         <View style={styles.right}>
-          {Platform.OS === 'android' ? (
-            <TouchableNativeFeedback
-              onPress={navigation.toggleDrawer}
-              // background={TouchableNativeFeedback.Ripple(
-              //   themedStyles.backgroundAlternativeColor.color,
-              //   true
-              // )}
-            >
-              <Icon
-                as={Entypo}
-                size="25px"
-                name="menu"
-                color="coolGray.800"
-                _dark={{
-                  color: 'warmGray.50',
-                }}
-              />
-            </TouchableNativeFeedback>
-          ) : (
-            <TouchableOpacity onPress={navigation.toggleDrawer}>
-              <Icon
-                as={Entypo}
-                size="25px"
-                name="menu"
-                color="coolGray.800"
-                _dark={{
-                  color: 'warmGray.50',
-                }}
-              />
-            </TouchableOpacity>
-          )}
+          {flexDir == 'front' ? (
+            Platform.OS === 'android' ? (
+              <TouchableNativeFeedback
+                onPress={navigation.toggleDrawer}
+                // background={TouchableNativeFeedback.Ripple(
+                //   themedStyles.backgroundAlternativeColor.color,
+                //   true
+                // )}
+              >
+                <Icon
+                  as={Entypo}
+                  size="25px"
+                  name="menu"
+                  color="coolGray.800"
+                  _dark={{
+                    color: 'warmGray.50',
+                  }}
+                />
+              </TouchableNativeFeedback>
+            ) : (
+              <TouchableOpacity onPress={navigation.toggleDrawer}>
+                <Icon
+                  as={Entypo}
+                  size="25px"
+                  name="menu"
+                  color="coolGray.800"
+                  _dark={{
+                    color: 'warmGray.50',
+                  }}
+                />
+              </TouchableOpacity>
+            )
+          ) : null}
           <Text style={styles.title} fontSize="lg">
             {`Hi ${
               user && user.customer && user.customer.customerDetails.firstName
                 ? user.customer.customerDetails.firstName
+                : user && user.employee && user.employee.firstName
+                ? user.employee.firstName
                 : ''
             }`}
           </Text>

@@ -54,6 +54,9 @@ const AuthenticationRoutes = () => {
         options={{
           headerShown: true,
         }}
+        initialParams={{
+          fromAdmin: false,
+        }}
       />
       <AuthStack.Screen
         name="UserDetails"

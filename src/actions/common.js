@@ -169,12 +169,12 @@ export const getCustomer = createAsyncThunk(
 );
 
 export const getEmployees = createAsyncThunk(
-  'common/getCustomers',
+  'common/getEmployees',
   async (data, { dispatch, getState }) => {
     try {
       const response = await api({
         method: 'get',
-        url: `customer/findAll?pageNumber=${data.pageNumber}&pageSize=${data.pageSize}`,
+        url: `user/findAllEmployees?pageNumber=${data.pageNumber}&pageSize=${data.pageSize}`,
         data: data,
       });
       return { status: true, data: response.data };
@@ -196,7 +196,7 @@ export const getSearchEmployees = createAsyncThunk(
     try {
       const response = await api({
         method: 'get',
-        url: `customer/searchCustomers?pageNumber=${data.pageNumber}&pageSize=${data.pageSize}&searchText=${data.searchText}`,
+        url: `user/searchEmployees?pageNumber=${data.pageNumber}&pageSize=${data.pageSize}&searchText=${data.searchText}`,
       });
       return { status: true, data: response.data };
     } catch (error) {
@@ -208,5 +208,84 @@ export const getSearchEmployees = createAsyncThunk(
       );
     }
     return { status: false, data: null };
+  }
+);
+
+export const addEmployee = createAsyncThunk(
+  'common/addEmployee',
+  async (userdata, { dispatch, getState }) => {
+    try {
+      var data = {
+        id: userdata.userId ? userdata.userId : null,
+        newPassword: userdata.password,
+        userType: userdata.role,
+        employee: {
+          firstName: userdata.firstName,
+          lastName: userdata.lastName,
+          age: userdata.age,
+          address: userdata.address,
+          country: userdata.country,
+          email: userdata.email,
+          phoneNo: userdata.phoneNo,
+        },
+      };
+      const response = await api({
+        method: 'post',
+        url: 'user/addEmployee',
+        data: data,
+      });
+      return { status: true, data: response.data };
+    } catch (error) {
+      console.log(error);
+      const errorMessage = _.get(
+        error,
+        'response.data.message',
+        JSON.stringify(error)
+      );
+    }
+    return { status: false, data: null };
+  }
+);
+
+export const getUser = createAsyncThunk(
+  'common/getUser',
+  async (data, { dispatch, getState }) => {
+    try {
+      const response = await api({
+        method: 'get',
+        url: `user/findUserById?id=${data.userId}`,
+      });
+      return { status: true, data: response.data };
+    } catch (error) {
+      console.log(error);
+      const errorMessage = _.get(
+        error,
+        'response.data.message',
+        JSON.stringify(error)
+      );
+    }
+    return { status: false, data: null };
+  }
+);
+
+export const updatePassword = createAsyncThunk(
+  'common/updatePassword',
+  async (userdata, { dispatch, getState }) => {
+    try {
+      var data = {
+        id: userdata.id,
+        newPassword: userdata.password,
+        currentPassword: userdata.currentPassword,
+      };
+      const response = await api({
+        method: 'post',
+        url: 'user/updatePassword',
+        data: data,
+      });
+      return { ...response.data };
+    } catch (error) {
+      console.log(error);
+    }
+    return { status: false, message: 'fail to update' };
   }
 );

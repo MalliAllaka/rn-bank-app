@@ -15,21 +15,20 @@ import { useToast } from 'react-native-toast-notifications';
 import { useNavigation } from '@react-navigation/native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import * as commonActions from '../../actions/common';
-import Gradient from '../../components/Gradient';
-import TextField from '../../components/InputField';
-import CheckBoxField from '../../components/CheckBoxField';
-import { useAppDispatch } from '../../app/store';
-import ErrorMessage from '../../components/ErrorMessage';
-import Icon from '../../components/CustomIcon';
-import Container from '../../components/Container';
+import * as commonActions from '../actions/common';
+import Gradient from '../components/Gradient';
+import TextField from '../components/InputField';
+import CheckBoxField from '../components/CheckBoxField';
+import { useAppDispatch } from '../app/store';
+import ErrorMessage from '../components/ErrorMessage';
+import Icon from '../components/CustomIcon';
+import Container from '../components/Container';
+import Loading from '../components/Loading';
 
 var mailRegExp = /\S+@\S+\.\S+/;
 
 const validationSchema = Yup.object().shape({
-  password: Yup.string().required('Please enter a password'),
-  confirmPassword: Yup.string().required('Please enter a confirm password'),
-  accountType: Yup.string().required('Please select a account type'),
+  role: Yup.string().required('Please select a account type'),
   firstName: Yup.string().required('Please enter a first name'),
   lastName: Yup.string().required('Please enter a last name'),
   age: Yup.string().required('Please enter a age'),
@@ -40,34 +39,38 @@ const validationSchema = Yup.object().shape({
     .required('Please enter a email address'),
   phoneNo: Yup.string().required('Please enter a phone number'),
 });
-let initData = {
-  password: '',
-  confirmPassword: '',
-  accountType: '',
-  firstName: '',
-  lastName: '',
-  age: '',
-  address: '',
-  country: '',
-  email: '',
-  phoneNo: '',
-};
-initData = {
-  password: '1234',
-  confirmPassword: '1234',
-  accountType: '1',
-  firstName: 'malli',
-  lastName: 'A',
-  age: '25',
-  address: 'RCPM',
-  country: 'India',
-  email: 'eswar.allaka@gmail.com',
-  phoneNo: '8096893131',
-};
 
-export default function Register({ route }) {
+const passwordSchema = Yup.object().shape({
+  password: Yup.string().required('Please enter a password'),
+  confirmPassword: Yup.string().required('Please enter a confirm password'),
+});
+
+export default function AddEmployee({ route }) {
   const navigation = useNavigation();
-  const fromAdmin = route?.params?.fromAdmin;
+  console.log(route?.params);
+  const isEdit = route?.params?.isEdit;
+  const userId = route?.params?.userId;
+  const passwordSchema = isEdit
+    ? {}
+    : {
+        password: Yup.string().required('Please enter a password'),
+        confirmPassword: Yup.string().required(
+          'Please enter a confirm password'
+        ),
+      };
+  const validation = Yup.object().shape({
+    role: Yup.string().required('Please select a account type'),
+    firstName: Yup.string().required('Please enter a first name'),
+    lastName: Yup.string().required('Please enter a last name'),
+    age: Yup.number().required('Please enter a age'),
+    address: Yup.string().required('Please enter a address'),
+    country: Yup.string().required('Please enter a country name'),
+    email: Yup.string()
+      .matches(mailRegExp, 'Please enter a valid email address')
+      .required('Please enter a email address'),
+    phoneNo: Yup.string().required('Please enter a phone number'),
+    ...passwordSchema,
+  });
 
   const width = useBreakpointValue({
     base: '100%',
@@ -77,18 +80,22 @@ export default function Register({ route }) {
   const dispatch = useAppDispatch();
 
   const [loading, setLoading] = React.useState(false);
+  const [saving, setSaving] = React.useState(false);
+  const [userData, setUserData] = React.useState({});
 
-  const registration = async (values) => {
-    setLoading(true);
+  const addEmployee = async (values) => {
+    console.log(values);
+    setSaving(true);
     const registrationStatus = await dispatch(
-      commonActions.registration({
+      commonActions.addEmployee({
         ...values,
+        userId: userId,
       })
     );
     const { payload } = registrationStatus;
     console.log(payload);
     if (!payload.status) {
-      toast.show('failed to register try again later ', {
+      toast.show('failed to Save Employee try again later ', {
         type: 'danger',
         placement: 'top',
         duration: 4000,
@@ -96,20 +103,39 @@ export default function Register({ route }) {
         animationType: 'slide-in',
       });
     } else {
-      if (fromAdmin) {
-        navigation.replace('CustomerDetails', {
-          showBackButton: true,
-          customer: payload.data.customer,
-          customerId: payload.data.customer.id,
-        });
-      } else {
-        navigation.replace('UserDetails', {
-          data: payload.data,
-        });
-      }
+      navigation.replace('EmployeeList');
     }
+    setSaving(false);
+  };
+
+  const getData = async (userId) => {
+    setLoading(true);
+    try {
+      const response = await dispatch(
+        commonActions.getUser({
+          userId: userId,
+        })
+      );
+      const { payload } = response;
+
+      if (payload.data) {
+        setUserData(payload.data);
+      }
+    } catch (error) {}
     setLoading(false);
   };
+
+  React.useEffect(() => {
+    if (userId) {
+      getData(userId);
+    }
+  }, [userId]);
+
+  console.log('userData', userData);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <View
@@ -122,22 +148,15 @@ export default function Register({ route }) {
       }}
     >
       <Container>
-        {fromAdmin ? (
-          <View style={{ flexDirection: 'row' }}>
-            <TouchableOpacity
-              onPress={() => navigation.pop()}
-              style={{ paddingBottom: 10 }}
-            >
-              <Icon
-                fill="black"
-                name="arrowleft"
-                iconPack="AntDesign"
-                size="6"
-              />
-            </TouchableOpacity>
-            <Text fontSize="lg">{`Add Customer`}</Text>
-          </View>
-        ) : null}
+        <View style={{ flexDirection: 'row' }}>
+          <TouchableOpacity
+            onPress={() => navigation.pop()}
+            style={{ paddingBottom: 10 }}
+          >
+            <Icon fill="black" name="arrowleft" iconPack="AntDesign" size="6" />
+          </TouchableOpacity>
+          <Text fontSize="lg">{`${isEdit ? 'Edit' : 'Add'} Employee`}</Text>
+        </View>
         <ScrollView
           style={{
             flex: 1,
@@ -147,10 +166,21 @@ export default function Register({ route }) {
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
               <Formik
                 enableReinitialize
-                initialValues={initData}
-                validationSchema={validationSchema}
+                initialValues={{
+                  password: '',
+                  confirmPassword: '',
+                  role: userData?.userType,
+                  firstName: userData?.employee?.firstName,
+                  lastName: userData?.employee?.lastName,
+                  age: userData?.employee?.age,
+                  address: userData?.employee?.address,
+                  country: userData?.employee?.country,
+                  email: userData?.employee?.email,
+                  phoneNo: userData?.employee?.phoneNo,
+                }}
+                validationSchema={validation}
                 onSubmit={(values) => {
-                  registration(values);
+                  addEmployee(values);
                 }}
               >
                 {({
@@ -306,27 +336,22 @@ export default function Register({ route }) {
                             ) : null}
                           </View>
                           <Select
-                            selectedValue={values.accountType}
+                            selectedValue={values.role}
                             minWidth="200"
-                            accessibilityLabel="Choose account type"
-                            placeholder="Choose account type"
+                            accessibilityLabel="Choose Role"
+                            placeholder="Choose Role"
                             _selectedItem={{
                               bg: 'teal.600',
                             }}
                             mt={1}
-                            onValueChange={handleChange('accountType')}
-                            onBlur={handleBlur('accountType')}
+                            onValueChange={handleChange('role')}
+                            onBlur={handleBlur('role')}
                           >
-                            <Select.Item label="Saving account" value="1" />
-                            <Select.Item label="Current account" value="2" />
-                            <Select.Item
-                              label="Fixed deposit account"
-                              value="3"
-                            />
-                            <Select.Item label="Salary account" value="4" />
+                            <Select.Item label="EMPLOYEE" value="EMPLOYEE" />
+                            <Select.Item label="ADMIN" value="ADMIN" />
                           </Select>
-                          {touched.accountType && errors.accountType ? (
-                            <ErrorMessage data={errors.accountType} />
+                          {touched.role && errors.role ? (
+                            <ErrorMessage data={errors.role} />
                           ) : null}
                           <View
                             style={{
@@ -390,7 +415,7 @@ export default function Register({ route }) {
                                 color={'white'}
                                 style={{ textAlign: 'center' }}
                               >
-                                registration
+                                Save
                               </Text>
                             </Gradient>
                           </TouchableOpacity>

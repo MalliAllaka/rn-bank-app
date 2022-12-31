@@ -16,6 +16,9 @@ import CustomerList from '../screens/CustomerList';
 import AccountDetails from '../screens/AccountDetails';
 import CustomerDetails from '../screens/CustomerDetails';
 import EmployeeList from '../screens/EmployeeList';
+import AddEmployee from '../screens/AddEmployee';
+import Register from '../screens/authentication/Register';
+
 const Drawer = createDrawerNavigator();
 
 export default function DrawerNavigator(props) {
@@ -34,9 +37,13 @@ export default function DrawerNavigator(props) {
       screenOptions={{
         headerShown: true,
         header: (props) => (
-          <Header {...props} setDrawerStatus={setDrawerStatus} />
+          <Header
+            {...props}
+            setDrawerStatus={setDrawerStatus}
+            flexDir={flexDir}
+          />
         ),
-        drawerType: flexDir,
+        drawerType: Platform.OS == 'web' ? flexDir : 'front',
       }}
       drawerContent={(props) => {
         return <DrawerContent {...props} />;
@@ -65,7 +72,7 @@ export default function DrawerNavigator(props) {
           }}
         />
       ) : null}
-      {user.userType == 'CUSTOMER' ? (
+      {user.userType == 'ADMIN' || user.userType == 'EMPLOYEE' ? (
         <Drawer.Screen
           name="CustomerRoutes"
           component={CustomerRoutes}
@@ -73,7 +80,7 @@ export default function DrawerNavigator(props) {
         />
       ) : null}
 
-      {user.userType == 'CUSTOMER' ? (
+      {user.userType == 'ADMIN' ? (
         <Drawer.Screen
           name="EmployeeRoutes"
           component={EmployeeRoutes}
@@ -116,6 +123,16 @@ const CustomerRoutes = () => {
           headerShown: false,
         }}
       />
+      <CustomerStack.Screen
+        name="AddCustomer"
+        component={Register}
+        options={{
+          headerShown: false,
+        }}
+        initialParams={{
+          fromAdmin: true,
+        }}
+      />
     </CustomerStack.Navigator>
   );
 };
@@ -133,8 +150,8 @@ const EmployeeRoutes = () => {
         }}
       />
       <EmployeeStack.Screen
-        name="CustomerDetails"
-        component={CustomerDetails}
+        name="AddEmployee"
+        component={AddEmployee}
         options={{
           headerShown: false,
         }}
