@@ -69,6 +69,8 @@ export default function Login() {
         style={{
           height: Dimensions.get('window').height,
           paddingHorizontal: 20,
+          width,
+          alignSelf: 'center',
         }}
       >
         <View
@@ -134,9 +136,9 @@ export default function Login() {
               </Gradient>
             </TouchableOpacity>
 
-            <Text style={{ textAlign: 'center' }} color="primary.400">
+            {/* <Text style={{ textAlign: 'center' }} color="primary.400">
               Forgot Password?
-            </Text>
+            </Text> */}
           </View>
           <View style={{ justifyContent: 'center', marginTop: 30 }}>
             <Text style={{ textAlign: 'center' }}>

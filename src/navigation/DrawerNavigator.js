@@ -36,9 +36,13 @@ export default function DrawerNavigator(props) {
       screenOptions={{
         headerShown: true,
         header: (props) => (
-          <Header {...props} setDrawerStatus={setDrawerStatus} />
+          <Header
+            {...props}
+            setDrawerStatus={setDrawerStatus}
+            flexDir={flexDir}
+          />
         ),
-        drawerType: flexDir,
+        drawerType: Platform.OS == 'web' ? flexDir : 'front',
       }}
       drawerContent={(props) => {
         return <DrawerContent {...props} />;
@@ -67,7 +71,7 @@ export default function DrawerNavigator(props) {
           }}
         />
       ) : null}
-      {user.userType == 'CUSTOMER' ? (
+      {user.userType == 'ADMIN' || user.userType == 'EMPLOYEE' ? (
         <Drawer.Screen
           name="CustomerRoutes"
           component={CustomerRoutes}
@@ -75,7 +79,7 @@ export default function DrawerNavigator(props) {
         />
       ) : null}
 
-      {user.userType == 'CUSTOMER' ? (
+      {user.userType == 'ADMIN' ? (
         <Drawer.Screen
           name="EmployeeRoutes"
           component={EmployeeRoutes}
