@@ -12,6 +12,10 @@ import {
   Dimensions,
 } from 'react-native';
 import { Pressable, Text, useBreakpointValue } from 'native-base';
+import {
+  useSafeAreaInsets,
+  useSafeAreaFrame,
+} from 'react-native-safe-area-context';
 import { useToast } from 'react-native-toast-notifications';
 import { useNavigation } from '@react-navigation/native';
 import * as authApi from '../../actions/auth';
@@ -27,6 +31,7 @@ export default function Login() {
     md: 420,
   });
   const toast = useToast();
+  const insets = useSafeAreaInsets();
   const dispatch = useAppDispatch();
 
   const [username, setUsername] = React.useState('malli9');
@@ -58,35 +63,37 @@ export default function Login() {
   };
 
   return (
-    <ScrollView
-      style={{
-        flex: 1,
-        width: '100%',
-        backgroundColor: '#fff',
-      }}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={{ flex: 1 }}
     >
-      <View
+      <ScrollView
         style={{
-          height: Dimensions.get('window').height,
-          paddingHorizontal: 20,
-          width,
-          alignSelf: 'center',
+          flex: 1,
+          width: '100%',
+          backgroundColor: '#fff',
         }}
       >
         <View
           style={{
-            height: Dimensions.get('window').height * 0.45,
-            justifyContent: 'center',
-            alignItems: 'center',
+            height: Dimensions.get('window').height - insets.top - insets.bottom,
+            paddingHorizontal: 20,
+            width,
+            alignSelf: 'center',
           }}
         >
-          <Text fontSize="2xl" color={'black'}>
-            Welcome to Online Bank
-          </Text>
-        </View>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        >
+          <View
+            style={{
+              height: Dimensions.get('window').height * 0.45,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <Text fontSize="2xl" color={'black'}>
+              Welcome to Online Bank
+            </Text>
+          </View>
+
           <Text fontSize="xl" style={{ paddingVertical: 5 }}>
             Sign In
           </Text>
@@ -150,9 +157,10 @@ export default function Login() {
               </Text>
             </TouchableOpacity>
           </View>
-        </KeyboardAvoidingView>
-      </View>
-    </ScrollView>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
+
   );
 }
 

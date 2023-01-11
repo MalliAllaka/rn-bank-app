@@ -1,5 +1,7 @@
 import React from 'react';
 import { StatusBar, SafeAreaView, StyleSheet, View } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+
 import { NativeBaseProvider, extendTheme } from 'native-base';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Updates from 'expo-updates';
@@ -131,20 +133,22 @@ export default function index() {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <SafeAreaView style={styles.container}>
-          <ToastProvider
-            duration={2000}
-            animationType="slide-in"
-            animationDuration={250}
-            offsetTop={35}
-            textStyle={{ textAlign: 'center' }}
-          >
-            <NativeBaseProvider theme={theme} config={config}>
-              <App />
-            </NativeBaseProvider>
-          </ToastProvider>
-          <StatusBar backgroundColor="#ffffff" barStyle="dark-content" />
-        </SafeAreaView>
+        <SafeAreaProvider>
+          <SafeAreaView style={styles.container}>
+            <ToastProvider
+              duration={2000}
+              animationType="slide-in"
+              animationDuration={250}
+              offsetTop={35}
+              textStyle={{ textAlign: 'center' }}
+            >
+              <NativeBaseProvider theme={theme} config={config}>
+                <App />
+              </NativeBaseProvider>
+            </ToastProvider>
+            <StatusBar backgroundColor="#ffffff" barStyle="dark-content" />
+          </SafeAreaView>
+        </SafeAreaProvider>
       </PersistGate>
     </Provider>
   );

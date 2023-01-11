@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 import {
   View,
   TouchableOpacity,
@@ -9,40 +9,40 @@ import {
   Keyboard,
   Platform,
   ScrollView,
-} from 'react-native';
-import { Pressable, Text, useBreakpointValue, Select } from 'native-base';
-import { useToast } from 'react-native-toast-notifications';
-import { useNavigation } from '@react-navigation/native';
-import { Formik } from 'formik';
-import * as Yup from 'yup';
-import * as commonActions from '../actions/common';
-import Gradient from '../components/Gradient';
-import TextField from '../components/InputField';
-import CheckBoxField from '../components/CheckBoxField';
-import { useAppDispatch } from '../app/store';
-import ErrorMessage from '../components/ErrorMessage';
-import Icon from '../components/CustomIcon';
-import Container from '../components/Container';
-import Loading from '../components/Loading';
+} from "react-native";
+import { Pressable, Text, useBreakpointValue, Select } from "native-base";
+import { useToast } from "react-native-toast-notifications";
+import { useNavigation } from "@react-navigation/native";
+import { Formik } from "formik";
+import * as Yup from "yup";
+import * as commonActions from "../actions/common";
+import Gradient from "../components/Gradient";
+import TextField from "../components/InputField";
+import CheckBoxField from "../components/CheckBoxField";
+import { useAppDispatch } from "../app/store";
+import ErrorMessage from "../components/ErrorMessage";
+import Icon from "../components/CustomIcon";
+import Container from "../components/Container";
+import Loading from "../components/Loading";
 
 var mailRegExp = /\S+@\S+\.\S+/;
 
 const validationSchema = Yup.object().shape({
-  role: Yup.string().required('Please select a account type'),
-  firstName: Yup.string().required('Please enter a first name'),
-  lastName: Yup.string().required('Please enter a last name'),
-  age: Yup.string().required('Please enter a age'),
-  address: Yup.string().required('Please enter a address'),
-  country: Yup.string().required('Please enter a country name'),
+  role: Yup.string().required("Please select a account type"),
+  firstName: Yup.string().required("Please enter a first name"),
+  lastName: Yup.string().required("Please enter a last name"),
+  age: Yup.string().required("Please enter a age"),
+  address: Yup.string().required("Please enter a address"),
+  country: Yup.string().required("Please enter a country name"),
   email: Yup.string()
-    .matches(mailRegExp, 'Please enter a valid email address')
-    .required('Please enter a email address'),
-  phoneNo: Yup.string().required('Please enter a phone number'),
+    .matches(mailRegExp, "Please enter a valid email address")
+    .required("Please enter a email address"),
+  phoneNo: Yup.string().required("Please enter a phone number"),
 });
 
 const passwordSchema = Yup.object().shape({
-  password: Yup.string().required('Please enter a password'),
-  confirmPassword: Yup.string().required('Please enter a confirm password'),
+  password: Yup.string().required("Please enter a password"),
+  confirmPassword: Yup.string().required("Please enter a confirm password"),
 });
 
 export default function AddEmployee({ route }) {
@@ -53,27 +53,27 @@ export default function AddEmployee({ route }) {
   const passwordSchema = isEdit
     ? {}
     : {
-        password: Yup.string().required('Please enter a password'),
+        password: Yup.string().required("Please enter a password"),
         confirmPassword: Yup.string().required(
-          'Please enter a confirm password'
+          "Please enter a confirm password"
         ),
       };
   const validation = Yup.object().shape({
-    role: Yup.string().required('Please select a account type'),
-    firstName: Yup.string().required('Please enter a first name'),
-    lastName: Yup.string().required('Please enter a last name'),
-    age: Yup.number().required('Please enter a age'),
-    address: Yup.string().required('Please enter a address'),
-    country: Yup.string().required('Please enter a country name'),
+    role: Yup.string().required("Please select a account type"),
+    firstName: Yup.string().required("Please enter a first name"),
+    lastName: Yup.string().required("Please enter a last name"),
+    age: Yup.number().required("Please enter a age"),
+    address: Yup.string().required("Please enter a address"),
+    country: Yup.string().required("Please enter a country name"),
     email: Yup.string()
-      .matches(mailRegExp, 'Please enter a valid email address')
-      .required('Please enter a email address'),
-    phoneNo: Yup.string().required('Please enter a phone number'),
+      .matches(mailRegExp, "Please enter a valid email address")
+      .required("Please enter a email address"),
+    phoneNo: Yup.string().required("Please enter a phone number"),
     ...passwordSchema,
   });
 
   const width = useBreakpointValue({
-    base: '100%',
+    base: "100%",
     md: 420,
   });
   const toast = useToast();
@@ -95,15 +95,15 @@ export default function AddEmployee({ route }) {
     const { payload } = registrationStatus;
     console.log(payload);
     if (!payload.status) {
-      toast.show('failed to Save Employee try again later ', {
-        type: 'danger',
-        placement: 'top',
+      toast.show("failed to Save Employee try again later ", {
+        type: "danger",
+        placement: "top",
         duration: 4000,
         offset: 30,
-        animationType: 'slide-in',
+        animationType: "slide-in",
       });
     } else {
-      navigation.replace('EmployeeList');
+      navigation.replace("EmployeeList");
     }
     setSaving(false);
   };
@@ -131,7 +131,7 @@ export default function AddEmployee({ route }) {
     }
   }, [userId]);
 
-  console.log('userData', userData);
+  console.log("userData", userData);
 
   if (loading) {
     return <Loading />;
@@ -141,34 +141,38 @@ export default function AddEmployee({ route }) {
     <View
       style={{
         flex: 1,
-        justifyContent: 'center',
-        backgroundColor: '#fff',
-        alignSelf: 'center',
-        width: '100%',
+        justifyContent: "center",
+        backgroundColor: "#fff",
+        alignSelf: "center",
+        width: "100%",
       }}
     >
       <Container>
-        <View style={{ flexDirection: 'row' }}>
+        <View style={{ flexDirection: "row" }}>
           <TouchableOpacity
             onPress={() => navigation.pop()}
             style={{ paddingBottom: 10 }}
           >
             <Icon fill="black" name="arrowleft" iconPack="AntDesign" size="6" />
           </TouchableOpacity>
-          <Text fontSize="lg">{`${isEdit ? 'Edit' : 'Add'} Employee`}</Text>
+          <Text fontSize="lg">{`${isEdit ? "Edit" : "Add"} Employee`}</Text>
         </View>
-        <ScrollView
-          style={{
-            flex: 1,
-          }}
+
+        <KeyboardAvoidingView
+          style={{ flex: 1, paddingBottom: 50 }}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
-          <KeyboardAvoidingView style={{ flex: 1 }}>
+          <ScrollView
+            style={{
+              flex: 1,
+            }}
+          >
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
               <Formik
                 enableReinitialize
                 initialValues={{
-                  password: '',
-                  confirmPassword: '',
+                  password: "",
+                  confirmPassword: "",
                   role: userData?.userType,
                   firstName: userData?.employee?.firstName,
                   lastName: userData?.employee?.lastName,
@@ -196,35 +200,35 @@ export default function AddEmployee({ route }) {
                     <View
                       style={{
                         flex: 1,
-                        justifyContent: 'center',
-                        backgroundColor: '#fff',
-                        alignSelf: 'center',
+                        justifyContent: "center",
+                        backgroundColor: "#fff",
+                        alignSelf: "center",
                         width: width,
                       }}
                     >
                       <View
                         style={{
                           flex: 3,
-                          backgroundColor: '#fff',
+                          backgroundColor: "#fff",
                           borderTopLeftRadius: 40,
                           borderTopRightRadius: 40,
                           paddingTop: 20,
-                          paddingHorizontal: 25,
+                          paddingHorizontal: 10,
                         }}
                       >
                         <View style={{}}>
                           <View
                             style={{
-                              flexDirection: 'column',
-                              width: '100%',
+                              flexDirection: "column",
+                              width: "100%",
                             }}
                           >
                             <TextField
                               style={styles.textField}
                               value={values.firstName}
                               label="First Name"
-                              onChangeText={handleChange('firstName')}
-                              onBlur={handleBlur('firstName')}
+                              onChangeText={handleChange("firstName")}
+                              onBlur={handleBlur("firstName")}
                             />
                             {touched.firstName && errors.firstName ? (
                               <ErrorMessage data={errors.firstName} />
@@ -232,16 +236,16 @@ export default function AddEmployee({ route }) {
                           </View>
                           <View
                             style={{
-                              flexDirection: 'column',
-                              width: '100%',
+                              flexDirection: "column",
+                              width: "100%",
                             }}
                           >
                             <TextField
                               style={styles.textField}
                               value={values.lastName}
                               label="Last Name"
-                              onChangeText={handleChange('lastName')}
-                              onBlur={handleBlur('lastName')}
+                              onChangeText={handleChange("lastName")}
+                              onBlur={handleBlur("lastName")}
                             />
                             {touched.lastName && errors.lastName ? (
                               <ErrorMessage data={errors.lastName} />
@@ -249,16 +253,16 @@ export default function AddEmployee({ route }) {
                           </View>
                           <View
                             style={{
-                              flexDirection: 'column',
-                              width: '100%',
+                              flexDirection: "column",
+                              width: "100%",
                             }}
                           >
                             <TextField
                               style={styles.textField}
                               value={values.age}
                               label="Age"
-                              onChangeText={handleChange('age')}
-                              onBlur={handleBlur('age')}
+                              onChangeText={handleChange("age")}
+                              onBlur={handleBlur("age")}
                             />
                             {touched.age && errors.age ? (
                               <ErrorMessage data={errors.age} />
@@ -267,16 +271,16 @@ export default function AddEmployee({ route }) {
 
                           <View
                             style={{
-                              flexDirection: 'column',
-                              width: '100%',
+                              flexDirection: "column",
+                              width: "100%",
                             }}
                           >
                             <TextField
                               style={styles.textField}
                               value={values.address}
                               label="Address"
-                              onChangeText={handleChange('address')}
-                              onBlur={handleBlur('address')}
+                              onChangeText={handleChange("address")}
+                              onBlur={handleBlur("address")}
                             />
                             {touched.address && errors.address ? (
                               <ErrorMessage data={errors.address} />
@@ -285,16 +289,16 @@ export default function AddEmployee({ route }) {
 
                           <View
                             style={{
-                              flexDirection: 'column',
-                              width: '100%',
+                              flexDirection: "column",
+                              width: "100%",
                             }}
                           >
                             <TextField
                               style={styles.textField}
                               value={values.country}
                               label="Country"
-                              onChangeText={handleChange('country')}
-                              onBlur={handleBlur('country')}
+                              onChangeText={handleChange("country")}
+                              onBlur={handleBlur("country")}
                             />
                             {touched.country && errors.country ? (
                               <ErrorMessage data={errors.country} />
@@ -303,16 +307,16 @@ export default function AddEmployee({ route }) {
 
                           <View
                             style={{
-                              flexDirection: 'column',
-                              width: '100%',
+                              flexDirection: "column",
+                              width: "100%",
                             }}
                           >
                             <TextField
                               style={styles.textField}
                               value={values.email}
                               label="Email"
-                              onChangeText={handleChange('email')}
-                              onBlur={handleBlur('email')}
+                              onChangeText={handleChange("email")}
+                              onBlur={handleBlur("email")}
                             />
                             {touched.email && errors.email ? (
                               <ErrorMessage data={errors.email} />
@@ -321,15 +325,15 @@ export default function AddEmployee({ route }) {
 
                           <View
                             style={{
-                              flexDirection: 'column',
-                              width: '100%',
+                              flexDirection: "column",
+                              width: "100%",
                             }}
                           >
                             <TextField
                               style={styles.textField}
                               value={values.phoneNo}
                               label="Phone No"
-                              onChangeText={handleChange('phoneNo')}
+                              onChangeText={handleChange("phoneNo")}
                             />
                             {touched.phoneNo && errors.phoneNo ? (
                               <ErrorMessage data={errors.phoneNo} />
@@ -341,11 +345,11 @@ export default function AddEmployee({ route }) {
                             accessibilityLabel="Choose Role"
                             placeholder="Choose Role"
                             _selectedItem={{
-                              bg: 'teal.600',
+                              bg: "teal.600",
                             }}
                             mt={1}
-                            onValueChange={handleChange('role')}
-                            onBlur={handleBlur('role')}
+                            onValueChange={handleChange("role")}
+                            onBlur={handleBlur("role")}
                           >
                             <Select.Item label="EMPLOYEE" value="EMPLOYEE" />
                             <Select.Item label="ADMIN" value="ADMIN" />
@@ -355,16 +359,16 @@ export default function AddEmployee({ route }) {
                           ) : null}
                           <View
                             style={{
-                              flexDirection: 'column',
-                              width: '100%',
+                              flexDirection: "column",
+                              width: "100%",
                             }}
                           >
                             <TextField
                               style={styles.textField}
                               value={values.password}
                               label="Password"
-                              onChangeText={handleChange('password')}
-                              onBlur={handleBlur('password')}
+                              onChangeText={handleChange("password")}
+                              onBlur={handleBlur("password")}
                               password
                             />
                             {touched.password && errors.password ? (
@@ -373,16 +377,16 @@ export default function AddEmployee({ route }) {
                           </View>
                           <View
                             style={{
-                              flexDirection: 'column',
-                              width: '100%',
+                              flexDirection: "column",
+                              width: "100%",
                             }}
                           >
                             <TextField
                               style={styles.textField}
                               value={values.confirmPassword}
                               label="Confirm Password"
-                              onChangeText={handleChange('confirmPassword')}
-                              onBlur={handleBlur('confirmPassword')}
+                              onChangeText={handleChange("confirmPassword")}
+                              onBlur={handleBlur("confirmPassword")}
                               password
                             />
                             {touched.confirmPassword &&
@@ -391,7 +395,7 @@ export default function AddEmployee({ route }) {
                             ) : null}
                             {values.confirmPassword != values.password ? (
                               <ErrorMessage
-                                data={'confirm password is Wrong'}
+                                data={"confirm password is Wrong"}
                               />
                             ) : null}
                           </View>
@@ -402,9 +406,9 @@ export default function AddEmployee({ route }) {
                               showGradient
                               style={{
                                 height: 42,
-                                width: '65%',
-                                alignSelf: 'center',
-                                justifyContent: 'center',
+                                width: "65%",
+                                alignSelf: "center",
+                                justifyContent: "center",
                                 borderRadius: 20,
                                 marginVertical: 20,
                               }}
@@ -412,8 +416,8 @@ export default function AddEmployee({ route }) {
                               <Text
                                 bold
                                 fontSize="md"
-                                color={'white'}
-                                style={{ textAlign: 'center' }}
+                                color={"white"}
+                                style={{ textAlign: "center" }}
                               >
                                 Save
                               </Text>
@@ -426,8 +430,8 @@ export default function AddEmployee({ route }) {
                 }}
               </Formik>
             </TouchableWithoutFeedback>
-          </KeyboardAvoidingView>
-        </ScrollView>
+          </ScrollView>
+        </KeyboardAvoidingView>
       </Container>
     </View>
   );

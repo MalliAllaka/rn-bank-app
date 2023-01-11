@@ -50,7 +50,6 @@ export const getCustomers = createAsyncThunk(
       const response = await api({
         method: 'get',
         url: `customer/findAll?pageNumber=${data.pageNumber}&pageSize=${data.pageSize}`,
-        data: data,
       });
       return { status: true, data: response.data };
     } catch (error) {
@@ -175,7 +174,6 @@ export const getEmployees = createAsyncThunk(
       const response = await api({
         method: 'get',
         url: `user/findAllEmployees?pageNumber=${data.pageNumber}&pageSize=${data.pageSize}`,
-        data: data,
       });
       return { status: true, data: response.data };
     } catch (error) {

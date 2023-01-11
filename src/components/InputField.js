@@ -46,6 +46,7 @@ const TextField = (props) => {
     <View style={[{ paddingTop: 10, ...style }]}>
       <View style={{ height: height }}>
         <Input
+          autoCapitalize="none"
           size="md"
           borderColor={!!value || isFocused ? "secondary.400" : "muted.400"}
           _focus={{
