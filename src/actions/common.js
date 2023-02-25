@@ -287,3 +287,44 @@ export const updatePassword = createAsyncThunk(
     return { status: false, message: 'fail to update' };
   }
 );
+
+export const verifyAccount = createAsyncThunk(
+  'common/verifyAccount',
+  async (data, { dispatch, getState }) => {
+    try {
+      const response = await api({
+        method: 'get',
+        url: `customer/findByAccountNo?accountNo=${data.accountNo}`,
+      });
+      return { status: true, data: response.data };
+    } catch (error) {
+      console.log(error);
+      const errorMessage = _.get(
+        error,
+        'response.data.message',
+        JSON.stringify(error)
+      );
+    }
+    return { status: false, data: null };
+  }
+);
+
+export const transferAmount = createAsyncThunk(
+  'common/transferAmount',
+  async (data, { dispatch, getState }) => {
+    try {
+      const response = await api({
+        method: 'post',
+        url: `transactions/transferAmount`,
+        data: data,
+      });
+      console.log(response.data);
+
+      return { status: true, data: response.data.transaction };
+    } catch (error) {
+      console.log(error);
+      const errorMessage = _.get(error, 'response.data');
+      return { status: false, message: errorMessage.errorMessage };
+    }
+  }
+);
