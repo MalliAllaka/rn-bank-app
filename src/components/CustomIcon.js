@@ -23,6 +23,8 @@ export default function Icon({ name, fill, iconPack, size }) {
       return FontAwesome;
     } else if (iconPack == 'Feather') {
       return Feather;
+    } else if (iconPack == 'materialCommunity') {
+      return MaterialCommunityIcons;
     }
   }, [iconPack]);
 
