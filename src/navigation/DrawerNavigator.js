@@ -58,12 +58,12 @@ export default function DrawerNavigator(props) {
     >
       {user.userType == 'CUSTOMER' ? (
         <Drawer.Screen
-          name="TransferMoney"
-          component={TrasferRoutes}
+          name="Transactions"
+          component={TotalTransactions}
           options={{
-            title: 'Transfer Money',
-            icon: 'bank-transfer-out',
-            pack: 'materialCommunity',
+            title: 'Transactions',
+            icon: 'list',
+            pack: 'Feather',
           }}
           initialParams={{
             showBackButton: false,
@@ -79,14 +79,15 @@ export default function DrawerNavigator(props) {
           options={{ title: 'Home', icon: 'home-outline', pack: 'ionicons' }}
         />
       ) : null}
+
       {user.userType == 'CUSTOMER' ? (
         <Drawer.Screen
-          name="Transactions"
-          component={TotalTransactions}
+          name="TransferMoney"
+          component={TrasferRoutes}
           options={{
-            title: 'Transactions',
-            icon: 'list',
-            pack: 'Feather',
+            title: 'Transfer Money',
+            icon: 'bank-transfer-out',
+            pack: 'materialCommunity',
           }}
           initialParams={{
             showBackButton: false,
@@ -197,33 +198,22 @@ const TrasferRoutes = () => {
   return (
     <TrasferStack.Navigator>
       <TrasferStack.Screen
-        name="TransferMoneySuccess"
-        component={TransferMoneySuccess}
-        options={{
-          headerShown: false,
-        }}
-        initialParams={{
-          showBackButton: true,
-          transaction: {
-            id: 1,
-            amount: 100,
-            customer: {
-              accountNumber: 12355,
-            },
-          },
-        }}
-      />
-      <TrasferStack.Screen
         name="TransferAccountVerification"
         component={TransferAccountVerification}
         options={{
           headerShown: false,
         }}
       />
-
       <TrasferStack.Screen
         name="TransferMoney"
         component={TransferMoney}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <TrasferStack.Screen
+        name="TransferMoneySuccess"
+        component={TransferMoneySuccess}
         options={{
           headerShown: false,
         }}
