@@ -46,7 +46,7 @@ export default function Transaction(props) {
           >{`${transaction?.amount}`}</Text>
           <Text
             style={{ textAlign: 'center', paddingLeft: 5, fontSize: 16 }}
-            color={transaction?.type == 'Withdraw' ? 'red.500' : 'green.500'}
+            color={transaction?.type == 'Withdraw' ? '#ffffff' : '#ffffff'}
             //   color="red.500"
           >
             {`${transaction?.type == 'Withdraw' ? 'DR' : 'CR'}`}

@@ -34,7 +34,7 @@ export default function Login() {
   const insets = useSafeAreaInsets();
   const dispatch = useAppDispatch();
 
-  const [username, setUsername] = React.useState('malli9');
+  const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('1234');
   const [loading, setLoading] = React.useState(false);
 
