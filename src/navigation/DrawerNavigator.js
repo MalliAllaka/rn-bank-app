@@ -82,7 +82,7 @@ export default function DrawerNavigator(props) {
 
       {user.userType == 'CUSTOMER' ? (
         <Drawer.Screen
-          name="TransferMoney"
+          name="TransferMoneyMain"
           component={TrasferRoutes}
           options={{
             title: 'Transfer Money',
