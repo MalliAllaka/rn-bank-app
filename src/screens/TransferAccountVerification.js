@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 import {
   View,
   TouchableOpacity,
@@ -9,38 +9,38 @@ import {
   Keyboard,
   Platform,
   ScrollView,
-} from 'react-native';
+} from "react-native";
 import {
   Pressable,
   Text,
   useBreakpointValue,
   Select,
   Heading,
-} from 'native-base';
-import { useNavigation } from '@react-navigation/native';
-import { useToast } from 'react-native-toast-notifications';
-import { Formik } from 'formik';
-import * as Yup from 'yup';
-import { useSelector } from 'react-redux';
+} from "native-base";
+import { useNavigation } from "@react-navigation/native";
+import { useToast } from "react-native-toast-notifications";
+import { Formik } from "formik";
+import * as Yup from "yup";
+import { useSelector } from "react-redux";
 
-import * as commonActions from '../actions/common';
-import Gradient from '../components/Gradient';
-import TextField from '../components/InputField';
-import CheckBoxField from '../components/CheckBoxField';
-import { useAppDispatch } from '../app/store';
-import ErrorMessage from '../components/ErrorMessage';
-import Container from '../components/Container';
-import { getUser } from '../selector/auth';
+import * as commonActions from "../actions/common";
+import Gradient from "../components/Gradient";
+import TextField from "../components/InputField";
+import CheckBoxField from "../components/CheckBoxField";
+import { useAppDispatch } from "../app/store";
+import ErrorMessage from "../components/ErrorMessage";
+import Container from "../components/Container";
+import { getUser } from "../selector/auth";
 
 var mailRegExp = /\S+@\S+\.\S+/;
 
 const validationSchema = Yup.object().shape({
   accountNo: Yup.number()
-    .required('Please enter a valid account no')
-    .typeError('Please enter a valid account no'),
+    .required("Please enter a valid account no")
+    .typeError("Please enter a valid account no"),
 });
 let initData = {
-  accountNo: '10001',
+  accountNo: "10001",
 };
 
 export default function TransferAccountVerification(props) {
@@ -64,20 +64,20 @@ export default function TransferAccountVerification(props) {
     if (!payload.status) {
       setCustomer(null);
 
-      toast.show(payload.message || 'request failed ', {
-        type: 'danger',
-        placement: 'top',
+      toast.show(payload.message || "request failed ", {
+        type: "danger",
+        placement: "top",
         duration: 4000,
         offset: 30,
-        animationType: 'slide-in',
+        animationType: "slide-in",
       });
     } else {
       if (!payload.data) {
         setErrors({
-          accountNo: 'Account Not Found ',
+          accountNo: "Account Not Found ",
         });
       } else {
-        navigation.navigate('TransferMoney', {
+        navigation.navigate("TransferMoney", {
           showBackButton: true,
           customerId: payload.data.id,
         });
@@ -99,101 +99,99 @@ export default function TransferAccountVerification(props) {
       <Heading size="sm" style={{ paddingVertical: 10 }}>
         Account Verification
       </Heading>
-      <KeyboardAvoidingView>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <Formik
-            enableReinitialize
-            initialValues={initData}
-            validationSchema={validationSchema}
-            onSubmit={(values, { setSubmitting, resetForm, setErrors }) => {
-              if (
-                String(user?.customer?.accountNumber) == values.accountNo.trim()
-              ) {
-                setErrors({
-                  accountNo: 'Please enter a valid account no',
-                });
-              } else {
-                verifyAccount(values, setSubmitting, resetForm, setErrors);
-              }
-            }}
-          >
-            {({
-              handleChange,
-              handleBlur,
-              handleSubmit,
-              values,
-              touched,
-              errors,
-            }) => {
-              console.log(errors);
-              return (
+      <ScrollView>
+        <Formik
+          enableReinitialize
+          initialValues={initData}
+          validationSchema={validationSchema}
+          onSubmit={(values, { setSubmitting, resetForm, setErrors }) => {
+            if (
+              String(user?.customer?.accountNumber) == values.accountNo.trim()
+            ) {
+              setErrors({
+                accountNo: "Please enter a valid account no",
+              });
+            } else {
+              verifyAccount(values, setSubmitting, resetForm, setErrors);
+            }
+          }}
+        >
+          {({
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            values,
+            touched,
+            errors,
+          }) => {
+            console.log(errors);
+            return (
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: "center",
+                  alignSelf: "center",
+                  width: "100%",
+                }}
+              >
                 <View
                   style={{
-                    flex: 1,
-                    justifyContent: 'center',
-                    alignSelf: 'center',
-                    width: '100%',
+                    flex: 3,
+                    backgroundColor: "#fff",
+                    borderRadius: 10,
+                    paddingTop: 20,
+                    paddingHorizontal: 5,
                   }}
                 >
-                  <View
-                    style={{
-                      flex: 3,
-                      backgroundColor: '#fff',
-                      borderRadius: 10,
-                      paddingTop: 20,
-                      paddingHorizontal: 5,
-                    }}
-                  >
-                    <View style={{}}>
-                      <View
-                        style={{
-                          flexDirection: 'column',
-                          width: '100%',
-                        }}
-                      >
-                        <TextField
-                          style={styles.textField}
-                          value={values.accountNo}
-                          label="Account No"
-                          onChangeText={handleChange('accountNo')}
-                          onBlur={handleBlur('accountNo')}
-                        />
-                        {touched.accountNo && errors.accountNo ? (
-                          <ErrorMessage data={errors.accountNo} />
-                        ) : null}
-                      </View>
-                    </View>
-                    <View style={{ marginTop: 10, marginBottom: 20 }}>
-                      <TouchableOpacity onPress={handleSubmit} style={{}}>
-                        <Gradient
-                          showGradient
-                          style={{
-                            height: 42,
-                            width: '65%',
-                            alignSelf: 'center',
-                            justifyContent: 'center',
-                            borderRadius: 20,
-                            marginVertical: 20,
-                          }}
-                        >
-                          <Text
-                            bold
-                            fontSize="md"
-                            color={'white'}
-                            style={{ textAlign: 'center' }}
-                          >
-                            Verify & Continue
-                          </Text>
-                        </Gradient>
-                      </TouchableOpacity>
+                  <View style={{}}>
+                    <View
+                      style={{
+                        flexDirection: "column",
+                        width: "100%",
+                      }}
+                    >
+                      <TextField
+                        style={styles.textField}
+                        value={values.accountNo}
+                        label="Account No"
+                        onChangeText={handleChange("accountNo")}
+                        onBlur={handleBlur("accountNo")}
+                      />
+                      {touched.accountNo && errors.accountNo ? (
+                        <ErrorMessage data={errors.accountNo} />
+                      ) : null}
                     </View>
                   </View>
+                  <View style={{ marginTop: 10, marginBottom: 20 }}>
+                    <TouchableOpacity onPress={handleSubmit} style={{}}>
+                      <Gradient
+                        showGradient
+                        style={{
+                          height: 42,
+                          width: "65%",
+                          alignSelf: "center",
+                          justifyContent: "center",
+                          borderRadius: 20,
+                          marginVertical: 20,
+                        }}
+                      >
+                        <Text
+                          bold
+                          fontSize="md"
+                          color={"white"}
+                          style={{ textAlign: "center" }}
+                        >
+                          Verify & Continue
+                        </Text>
+                      </Gradient>
+                    </TouchableOpacity>
+                  </View>
                 </View>
-              );
-            }}
-          </Formik>
-        </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
+              </View>
+            );
+          }}
+        </Formik>
+      </ScrollView>
     </Container>
   );
 }

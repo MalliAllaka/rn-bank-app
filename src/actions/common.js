@@ -1,11 +1,13 @@
-import { createAsyncThunk, createAction } from '@reduxjs/toolkit';
-import _ from 'lodash';
-import { api, setApiHeaders } from './../utils/api';
+import { createAsyncThunk, createAction } from "@reduxjs/toolkit";
+import _ from "lodash";
+import { api, setApiHeaders } from "./../utils/api";
 
-import * as commonSlice from './../reducers/auth';
+import * as commonSlice from "./../reducers/auth";
+
+import * as authSlice from "./../reducers/auth";
 
 export const registration = createAsyncThunk(
-  'common/registration',
+  "common/registration",
   async (userdata, { dispatch, getState }) => {
     try {
       var data = {
@@ -26,8 +28,8 @@ export const registration = createAsyncThunk(
         },
       };
       const response = await api({
-        method: 'post',
-        url: 'user/create',
+        method: "post",
+        url: "user/create",
         data: data,
       });
       return { status: true, data: response.data };
@@ -35,7 +37,7 @@ export const registration = createAsyncThunk(
       console.log(error);
       const errorMessage = _.get(
         error,
-        'response.data.message',
+        "response.data.message",
         JSON.stringify(error)
       );
     }
@@ -44,11 +46,11 @@ export const registration = createAsyncThunk(
 );
 
 export const getCustomers = createAsyncThunk(
-  'common/getCustomers',
+  "common/getCustomers",
   async (data, { dispatch, getState }) => {
     try {
       const response = await api({
-        method: 'get',
+        method: "get",
         url: `customer/findAll?pageNumber=${data.pageNumber}&pageSize=${data.pageSize}`,
       });
       return { status: true, data: response.data };
@@ -56,7 +58,7 @@ export const getCustomers = createAsyncThunk(
       console.log(error);
       const errorMessage = _.get(
         error,
-        'response.data.message',
+        "response.data.message",
         JSON.stringify(error)
       );
     }
@@ -65,11 +67,11 @@ export const getCustomers = createAsyncThunk(
 );
 
 export const getSearchCustomers = createAsyncThunk(
-  'common/searchCustomers',
+  "common/searchCustomers",
   async (data, { dispatch, getState }) => {
     try {
       const response = await api({
-        method: 'get',
+        method: "get",
         url: `customer/searchCustomers?pageNumber=${data.pageNumber}&pageSize=${data.pageSize}&searchText=${data.searchText}`,
       });
       return { status: true, data: response.data };
@@ -77,7 +79,7 @@ export const getSearchCustomers = createAsyncThunk(
       console.log(error);
       const errorMessage = _.get(
         error,
-        'response.data.message',
+        "response.data.message",
         JSON.stringify(error)
       );
     }
@@ -86,11 +88,11 @@ export const getSearchCustomers = createAsyncThunk(
 );
 
 export const withdrawAmount = createAsyncThunk(
-  'common/withdrawAmount',
+  "common/withdrawAmount",
   async (data, { dispatch, getState }) => {
     try {
       const response = await api({
-        method: 'post',
+        method: "post",
         url: `transactions/withdrawAmount`,
         data: data,
       });
@@ -99,18 +101,18 @@ export const withdrawAmount = createAsyncThunk(
       return { status: true, data: response.data.transactions };
     } catch (error) {
       console.log(error);
-      const errorMessage = _.get(error, 'response.data');
+      const errorMessage = _.get(error, "response.data");
       return { status: false, message: errorMessage.errorMessage };
     }
   }
 );
 
 export const depositeAmount = createAsyncThunk(
-  'common/depositeAmount',
+  "common/depositeAmount",
   async (data, { dispatch, getState }) => {
     try {
       const response = await api({
-        method: 'post',
+        method: "post",
         url: `transactions/depositeAmount`,
         data: data,
       });
@@ -119,26 +121,30 @@ export const depositeAmount = createAsyncThunk(
       return { status: true, data: response.data.transactions };
     } catch (error) {
       console.log(error);
-      const errorMessage = _.get(error, 'response.data');
+      const errorMessage = _.get(error, "response.data");
       return { status: false, message: errorMessage.errorMessage };
     }
   }
 );
 
 export const getTransactions = createAsyncThunk(
-  'common/getTransactions',
+  "common/getTransactions",
   async (data, { dispatch, getState }) => {
     try {
       const response = await api({
-        method: 'get',
-        url: `transactions/findbyCustomerId?pageNumber=${data.pageNumber}&pageSize=${data.pageSize}&customerId=${data.customerId}`,
+        method: "get",
+        url: `transactions/findbyCustomerId?pageNumber=${
+          data.pageNumber
+        }&pageSize=${data.pageSize}&customerId=${data.customerId}&startDate=${
+          data.startDate ? data.startDate : ""
+        }&endDate=${data.endDate ? data.endDate : ""}`,
       });
       return { status: true, data: response.data };
     } catch (error) {
       console.log(error);
       const errorMessage = _.get(
         error,
-        'response.data.message',
+        "response.data.message",
         JSON.stringify(error)
       );
     }
@@ -147,11 +153,11 @@ export const getTransactions = createAsyncThunk(
 );
 
 export const getCustomer = createAsyncThunk(
-  'common/getCustomer',
+  "common/getCustomer",
   async (data, { dispatch, getState }) => {
     try {
       const response = await api({
-        method: 'get',
+        method: "get",
         url: `customer/searchCustomer?id=${data.customerId}`,
       });
       return { status: true, data: response.data };
@@ -159,7 +165,7 @@ export const getCustomer = createAsyncThunk(
       console.log(error);
       const errorMessage = _.get(
         error,
-        'response.data.message',
+        "response.data.message",
         JSON.stringify(error)
       );
     }
@@ -168,11 +174,11 @@ export const getCustomer = createAsyncThunk(
 );
 
 export const getEmployees = createAsyncThunk(
-  'common/getEmployees',
+  "common/getEmployees",
   async (data, { dispatch, getState }) => {
     try {
       const response = await api({
-        method: 'get',
+        method: "get",
         url: `user/findAllEmployees?pageNumber=${data.pageNumber}&pageSize=${data.pageSize}`,
       });
       return { status: true, data: response.data };
@@ -180,7 +186,7 @@ export const getEmployees = createAsyncThunk(
       console.log(error);
       const errorMessage = _.get(
         error,
-        'response.data.message',
+        "response.data.message",
         JSON.stringify(error)
       );
     }
@@ -189,11 +195,11 @@ export const getEmployees = createAsyncThunk(
 );
 
 export const getSearchEmployees = createAsyncThunk(
-  'common/searchCustomers',
+  "common/searchCustomers",
   async (data, { dispatch, getState }) => {
     try {
       const response = await api({
-        method: 'get',
+        method: "get",
         url: `user/searchEmployees?pageNumber=${data.pageNumber}&pageSize=${data.pageSize}&searchText=${data.searchText}`,
       });
       return { status: true, data: response.data };
@@ -201,7 +207,7 @@ export const getSearchEmployees = createAsyncThunk(
       console.log(error);
       const errorMessage = _.get(
         error,
-        'response.data.message',
+        "response.data.message",
         JSON.stringify(error)
       );
     }
@@ -210,7 +216,7 @@ export const getSearchEmployees = createAsyncThunk(
 );
 
 export const addEmployee = createAsyncThunk(
-  'common/addEmployee',
+  "common/addEmployee",
   async (userdata, { dispatch, getState }) => {
     try {
       var data = {
@@ -228,8 +234,8 @@ export const addEmployee = createAsyncThunk(
         },
       };
       const response = await api({
-        method: 'post',
-        url: 'user/addEmployee',
+        method: "post",
+        url: "user/addEmployee",
         data: data,
       });
       return { status: true, data: response.data };
@@ -237,7 +243,7 @@ export const addEmployee = createAsyncThunk(
       console.log(error);
       const errorMessage = _.get(
         error,
-        'response.data.message',
+        "response.data.message",
         JSON.stringify(error)
       );
     }
@@ -246,11 +252,11 @@ export const addEmployee = createAsyncThunk(
 );
 
 export const getUser = createAsyncThunk(
-  'common/getUser',
+  "common/getUser",
   async (data, { dispatch, getState }) => {
     try {
       const response = await api({
-        method: 'get',
+        method: "get",
         url: `user/findUserById?id=${data.userId}`,
       });
       return { status: true, data: response.data };
@@ -258,7 +264,7 @@ export const getUser = createAsyncThunk(
       console.log(error);
       const errorMessage = _.get(
         error,
-        'response.data.message',
+        "response.data.message",
         JSON.stringify(error)
       );
     }
@@ -267,7 +273,7 @@ export const getUser = createAsyncThunk(
 );
 
 export const updatePassword = createAsyncThunk(
-  'common/updatePassword',
+  "common/updatePassword",
   async (userdata, { dispatch, getState }) => {
     try {
       var data = {
@@ -276,24 +282,24 @@ export const updatePassword = createAsyncThunk(
         currentPassword: userdata.currentPassword,
       };
       const response = await api({
-        method: 'post',
-        url: 'user/updatePassword',
+        method: "post",
+        url: "user/updatePassword",
         data: data,
       });
       return { ...response.data };
     } catch (error) {
       console.log(error);
     }
-    return { status: false, message: 'fail to update' };
+    return { status: false, message: "fail to update" };
   }
 );
 
 export const verifyAccount = createAsyncThunk(
-  'common/verifyAccount',
+  "common/verifyAccount",
   async (data, { dispatch, getState }) => {
     try {
       const response = await api({
-        method: 'get',
+        method: "get",
         url: `customer/findByAccountNo?accountNo=${data.accountNo}`,
       });
       return { status: true, data: response.data };
@@ -301,7 +307,7 @@ export const verifyAccount = createAsyncThunk(
       console.log(error);
       const errorMessage = _.get(
         error,
-        'response.data.message',
+        "response.data.message",
         JSON.stringify(error)
       );
     }
@@ -310,20 +316,29 @@ export const verifyAccount = createAsyncThunk(
 );
 
 export const transferAmount = createAsyncThunk(
-  'common/transferAmount',
+  "common/transferAmount",
   async (data, { dispatch, getState }) => {
+    const state = getState();
     try {
       const response = await api({
-        method: 'post',
+        method: "post",
         url: `transactions/transferAmount`,
         data: data,
       });
       console.log(response.data);
 
+      const userdata = state?.auth?.user;
+      if (userdata) {
+        const userResponse = await api({
+          method: "get",
+          url: `user/findByUsername?username=${userdata.username}`,
+        });
+        dispatch(authSlice.setUser(userResponse.data));
+      }
       return { status: true, data: response.data.transaction };
     } catch (error) {
       console.log(error);
-      const errorMessage = _.get(error, 'response.data');
+      const errorMessage = _.get(error, "response.data");
       return { status: false, message: errorMessage.errorMessage };
     }
   }
