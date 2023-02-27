@@ -1,14 +1,14 @@
-import * as React from 'react';
-import { View, TouchableOpacity, StyleSheet } from 'react-native';
+import * as React from "react";
+import { View, TouchableOpacity, StyleSheet } from "react-native";
 
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Icon, Text } from 'native-base';
-import { Feather, AntDesign, Entypo, Ionicons } from '@expo/vector-icons';
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Icon, Text } from "native-base";
+import { Feather, AntDesign, Entypo, Ionicons } from "@expo/vector-icons";
 
-import Gradient from '../components/Gradient';
-import Home from '../screens/Home';
-import Settings from '../screens/Settings';
-import AccountDetails from '../screens/AccountDetails';
+import Gradient from "../components/Gradient";
+import Home from "../screens/Home";
+import Settings from "../screens/Settings";
+import AccountDetails from "../screens/AccountDetails";
 
 const Tab = createBottomTabNavigator();
 
@@ -23,14 +23,14 @@ export default function TabNavigation() {
       <Tab.Screen
         name="Home"
         component={Home}
-        options={{ label: 'home', iconName: 'home', iconPack: Entypo }}
+        options={{ label: "home", iconName: "home", iconPack: Entypo }}
       />
       <Tab.Screen
         name="AccountDetails"
         component={AccountDetails}
         options={{
-          label: 'Account',
-          iconName: 'document-text',
+          label: "Account",
+          iconName: "document-text",
           iconPack: Ionicons,
         }}
       />
@@ -42,15 +42,15 @@ function MyTabBar({ state, descriptors, navigation }) {
   return (
     <View
       style={{
-        flexDirection: 'row',
+        flexDirection: "row",
         height: 60,
-        justifyContent: 'space-evenly',
+        justifyContent: "space-evenly",
         paddingHorizontal: 5,
-        backgroundColor: '#fff',
+        backgroundColor: "#fff",
         // borderTopColor: "#000",
         // borderTopWidth: StyleSheet.hairlineWidth,
         elevation: 20,
-        shadowColor: '#000',
+        shadowColor: "#000",
         shadowOpacity: 0.5,
         shadowOffset: { width: 0, height: 10 },
       }}
@@ -68,7 +68,7 @@ function MyTabBar({ state, descriptors, navigation }) {
 
         const onPress = () => {
           const event = navigation.emit({
-            type: 'tabPress',
+            type: "tabPress",
             target: route.key,
             canPreventDefault: true,
           });
@@ -81,7 +81,7 @@ function MyTabBar({ state, descriptors, navigation }) {
 
         const onLongPress = () => {
           navigation.emit({
-            type: 'tabLongPress',
+            type: "tabLongPress",
             target: route.key,
           });
         };
@@ -97,25 +97,25 @@ function MyTabBar({ state, descriptors, navigation }) {
             onLongPress={onLongPress}
             style={{
               flex: 1,
-              height: '100%',
+              height: "100%",
               marginHorizontal: 5,
-              alignSelf: 'center',
-              alignItems: 'center',
-              justifyContent: 'space-evenly',
+              alignSelf: "center",
+              alignItems: "center",
+              justifyContent: "space-evenly",
               borderTopRightRadius: 10,
               borderTopLeftRadius: 10,
               bottom: 7,
-              overflow: 'hidden',
+              overflow: "hidden",
             }}
           >
             <Gradient
               showGradient={isFocused}
               style={{
-                justifyContent: 'center',
+                justifyContent: "center",
                 flex: 1,
-                height: '100%',
-                width: '100%',
-                alignItems: 'center',
+                height: "100%",
+                width: "100%",
+                alignItems: "center",
                 paddingTop: 7,
               }}
             >
@@ -123,15 +123,15 @@ function MyTabBar({ state, descriptors, navigation }) {
                 as={options.iconPack}
                 size="20px"
                 name={options.iconName}
-                color="coolGray.800"
+                color={isFocused ? "#fff" : "#222"}
                 _dark={{
-                  color: 'warmGray.50',
+                  color: isFocused ? "#fff" : "#222",
                 }}
               />
               <Text
                 style={{
-                  color: isFocused ? '#222' : '#222',
-                  textAlign: 'center',
+                  color: isFocused ? "#fff" : "#222",
+                  textAlign: "center",
                 }}
               >
                 {options.label}

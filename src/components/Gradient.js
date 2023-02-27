@@ -15,13 +15,14 @@ export default function Gradient(props) {
     <LinearGradient
       start={[0, -0.2]}
       end={[1, 0]}
-      colors={["#0DCDE8", "#0DDF5B"]}
+      colors={["#4F46E5", "#4F46E5"]}
       style={[styles.linearGradient, { ...customStyles }]}
     >
       {props.children}
     </LinearGradient>
   );
 }
+
 
 const styles = StyleSheet.create({
   linearGradient: {
