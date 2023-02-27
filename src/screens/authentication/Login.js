@@ -24,6 +24,7 @@ import TextField from "../../components/InputField";
 import CheckBoxField from "../../components/CheckBoxField";
 import { useAppDispatch } from "../../app/store";
 import ChangeUrl from "../../components/ChangeUrl";
+import { api } from '../../utils/api';
 
 export default function Login() {
   const navigation = useNavigation();
@@ -52,7 +53,7 @@ export default function Login() {
     const { payload } = loginStatus;
 
     if (!payload) {
-      toast.show("You have entered an invalid username or password", {
+      toast.show(`You have entered an invalid username or password ${api?.defaults?.baseURL}`, {
         type: "danger",
         placement: "top",
         duration: 4000,

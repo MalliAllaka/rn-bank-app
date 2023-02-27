@@ -1,17 +1,23 @@
-import { createAsyncThunk, createAction } from '@reduxjs/toolkit';
-import _ from 'lodash';
-import { api, setApiHeaders } from './../utils/api';
+import { createAsyncThunk, createAction } from "@reduxjs/toolkit";
+import _ from "lodash";
+import { api, setApiHeaders, setBaseUrl } from "./../utils/api";
 
-import * as authSlice from './../reducers/auth';
+import * as authSlice from "./../reducers/auth";
+import { getCommonData } from "../selector/common";
 
 export const doLogin = createAsyncThunk(
-  'auth/login',
+  "auth/login",
   async (userdata, { dispatch, getState }) => {
     try {
       console.log(userdata);
+      const state = getState();
+      const common = getCommonData(state);
+      const { baseUrl } = common;
+      setBaseUrl(baseUrl);
+
       const response = await api({
-        method: 'post',
-        url: 'authenticate',
+        method: "post",
+        url: "authenticate",
         data: userdata,
       });
 
@@ -19,7 +25,7 @@ export const doLogin = createAsyncThunk(
       setApiHeaders(token);
 
       const userResponse = await api({
-        method: 'get',
+        method: "get",
         url: `user/findByUsername?username=${userdata.username}`,
       });
 
@@ -30,11 +36,11 @@ export const doLogin = createAsyncThunk(
       console.log(error);
       const errorMessage = _.get(
         error,
-        'response.data.message',
+        "response.data.message",
         JSON.stringify(error)
       );
-      dispatch(authSlice.setUserToken(''));
-      dispatch(authSlice.setLoginDetails(''));
+      dispatch(authSlice.setUserToken(""));
+      dispatch(authSlice.setLoginDetails(""));
       return false;
     }
     return true;

@@ -27,6 +27,9 @@ import Loading from "../components/Loading";
 
 var mailRegExp = /\S+@\S+\.\S+/;
 
+const phoneRegExp =
+  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+
 const validationSchema = Yup.object().shape({
   role: Yup.string().required("Please select a account type"),
   firstName: Yup.string().required("Please enter a first name"),
@@ -37,7 +40,11 @@ const validationSchema = Yup.object().shape({
   email: Yup.string()
     .matches(mailRegExp, "Please enter a valid email address")
     .required("Please enter a email address"),
-  phoneNo: Yup.string().required("Please enter a phone number"),
+  phoneNo: Yup.string()
+    .matches(phoneRegExp, "Phone number is not valid")
+    .min(10)
+    .max(10)
+    .required("Please enter a Phone number"),
 });
 
 const passwordSchema = Yup.object().shape({

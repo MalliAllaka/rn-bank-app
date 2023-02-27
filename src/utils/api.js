@@ -1,7 +1,7 @@
 import axios from "axios";
 import jsog from "jsog";
 
-export const apiBaseUrl = "http://192.168.150.101:7777";
+export const apiBaseUrl = "http:///172.20.10.5:7777";
 
 const api = axios.create({
   baseURL: apiBaseUrl,

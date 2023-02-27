@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 import {
   View,
   TouchableOpacity,
@@ -9,60 +9,67 @@ import {
   Keyboard,
   Platform,
   ScrollView,
-} from 'react-native';
-import { Pressable, Text, useBreakpointValue, Select } from 'native-base';
-import { useToast } from 'react-native-toast-notifications';
-import { useNavigation } from '@react-navigation/native';
-import { Formik } from 'formik';
-import * as Yup from 'yup';
-import * as commonActions from '../../actions/common';
-import Gradient from '../../components/Gradient';
-import TextField from '../../components/InputField';
-import CheckBoxField from '../../components/CheckBoxField';
-import { useAppDispatch } from '../../app/store';
-import ErrorMessage from '../../components/ErrorMessage';
-import Icon from '../../components/CustomIcon';
-import Container from '../../components/Container';
+} from "react-native";
+import { Pressable, Text, useBreakpointValue, Select } from "native-base";
+import { useToast } from "react-native-toast-notifications";
+import { useNavigation } from "@react-navigation/native";
+import { Formik } from "formik";
+import * as Yup from "yup";
+import * as commonActions from "../../actions/common";
+import Gradient from "../../components/Gradient";
+import TextField from "../../components/InputField";
+import CheckBoxField from "../../components/CheckBoxField";
+import { useAppDispatch } from "../../app/store";
+import ErrorMessage from "../../components/ErrorMessage";
+import Icon from "../../components/CustomIcon";
+import Container from "../../components/Container";
 
-var mailRegExp = /\S+@\S+\.\S+/;
+const mailRegExp = /\S+@\S+\.\S+/;
+
+const phoneRegExp =
+  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
 const validationSchema = Yup.object().shape({
-  password: Yup.string().required('Please enter a password'),
-  confirmPassword: Yup.string().required('Please enter a confirm password'),
-  accountType: Yup.string().required('Please select a account type'),
-  firstName: Yup.string().required('Please enter a first name'),
-  lastName: Yup.string().required('Please enter a last name'),
-  age: Yup.string().required('Please enter a age'),
-  address: Yup.string().required('Please enter a address'),
-  country: Yup.string().required('Please enter a country name'),
+  password: Yup.string().required("Please enter a password"),
+  confirmPassword: Yup.string().required("Please enter a confirm password"),
+  accountType: Yup.string().required("Please select a account type"),
+  firstName: Yup.string().required("Please enter a first name"),
+  lastName: Yup.string().required("Please enter a last name"),
+  age: Yup.string().required("Please enter a age"),
+  address: Yup.string().required("Please enter a address"),
+  country: Yup.string().required("Please enter a country name"),
   email: Yup.string()
-    .matches(mailRegExp, 'Please enter a valid email address')
-    .required('Please enter a email address'),
-  phoneNo: Yup.string().required('Please enter a phone number'),
+    .matches(mailRegExp, "Please enter a valid email address")
+    .required("Please enter a email address"),
+  phoneNo: Yup.string()
+    .matches(phoneRegExp, "Phone number is not valid")
+    .min(10)
+    .max(10)
+    .required("Please enter a Phone number"),
 });
 let initData = {
-  password: '',
-  confirmPassword: '',
-  accountType: '',
-  firstName: '',
-  lastName: '',
-  age: '',
-  address: '',
-  country: '',
-  email: '',
-  phoneNo: '',
+  password: "",
+  confirmPassword: "",
+  accountType: "",
+  firstName: "",
+  lastName: "",
+  age: "",
+  address: "",
+  country: "",
+  email: "",
+  phoneNo: "",
 };
 initData = {
-  password: '1234',
-  confirmPassword: '1234',
-  accountType: '1',
-  firstName: 'malli',
-  lastName: 'A',
-  age: '25',
-  address: 'RCPM',
-  country: 'India',
-  email: 'eswar.allaka@gmail.com',
-  phoneNo: '8096893131',
+  password: "1234",
+  confirmPassword: "1234",
+  accountType: "1",
+  firstName: "malli",
+  lastName: "A",
+  age: "25",
+  address: "RCPM",
+  country: "India",
+  email: "eswar.allaka@gmail.com",
+  phoneNo: "8096893131",
 };
 
 export default function Register({ route }) {
@@ -70,7 +77,7 @@ export default function Register({ route }) {
   const fromAdmin = route?.params?.fromAdmin;
 
   const width = useBreakpointValue({
-    base: '100%',
+    base: "100%",
     md: 420,
   });
   const toast = useToast();
@@ -88,22 +95,22 @@ export default function Register({ route }) {
     const { payload } = registrationStatus;
     console.log(payload);
     if (!payload.status) {
-      toast.show('failed to register try again later ', {
-        type: 'danger',
-        placement: 'top',
+      toast.show("failed to register try again later ", {
+        type: "danger",
+        placement: "top",
         duration: 4000,
         offset: 30,
-        animationType: 'slide-in',
+        animationType: "slide-in",
       });
     } else {
       if (fromAdmin) {
-        navigation.replace('CustomerDetails', {
+        navigation.replace("CustomerDetails", {
           showBackButton: true,
           customer: payload.data.customer,
           customerId: payload.data.customer.id,
         });
       } else {
-        navigation.replace('UserDetails', {
+        navigation.replace("UserDetails", {
           data: payload.data,
         });
       }
@@ -118,22 +125,22 @@ export default function Register({ route }) {
       }}
     >
       <KeyboardAvoidingView
-        style={{ flex: 1, backgroundColor: '#fff' }}
-        behavior={'padding'}
+        style={{ flex: 1, backgroundColor: "#fff" }}
+        behavior={"padding"}
       >
         <View
           style={{
             flex: 1,
-            justifyContent: 'center',
-            backgroundColor: '#fff',
-            alignSelf: 'center',
-            width: '100%',
+            justifyContent: "center",
+            backgroundColor: "#fff",
+            alignSelf: "center",
+            width: "100%",
             paddingBottom: 50,
           }}
         >
           <Container>
             {fromAdmin ? (
-              <View style={{ flexDirection: 'row' }}>
+              <View style={{ flexDirection: "row" }}>
                 <TouchableOpacity
                   onPress={() => navigation.pop()}
                   style={{ paddingBottom: 10 }}
@@ -171,16 +178,16 @@ export default function Register({ route }) {
                     <View
                       style={{
                         flex: 1,
-                        justifyContent: 'center',
-                        backgroundColor: '#fff',
-                        alignSelf: 'center',
+                        justifyContent: "center",
+                        backgroundColor: "#fff",
+                        alignSelf: "center",
                         width: width,
                       }}
                     >
                       <View
                         style={{
                           flex: 3,
-                          backgroundColor: '#fff',
+                          backgroundColor: "#fff",
                           borderTopLeftRadius: 40,
                           borderTopRightRadius: 40,
                           paddingTop: 20,
@@ -190,16 +197,16 @@ export default function Register({ route }) {
                         <View style={{}}>
                           <View
                             style={{
-                              flexDirection: 'column',
-                              width: '100%',
+                              flexDirection: "column",
+                              width: "100%",
                             }}
                           >
                             <TextField
                               style={styles.textField}
                               value={values.firstName}
                               label="First Name"
-                              onChangeText={handleChange('firstName')}
-                              onBlur={handleBlur('firstName')}
+                              onChangeText={handleChange("firstName")}
+                              onBlur={handleBlur("firstName")}
                             />
                             {touched.firstName && errors.firstName ? (
                               <ErrorMessage data={errors.firstName} />
@@ -207,16 +214,16 @@ export default function Register({ route }) {
                           </View>
                           <View
                             style={{
-                              flexDirection: 'column',
-                              width: '100%',
+                              flexDirection: "column",
+                              width: "100%",
                             }}
                           >
                             <TextField
                               style={styles.textField}
                               value={values.lastName}
                               label="Last Name"
-                              onChangeText={handleChange('lastName')}
-                              onBlur={handleBlur('lastName')}
+                              onChangeText={handleChange("lastName")}
+                              onBlur={handleBlur("lastName")}
                             />
                             {touched.lastName && errors.lastName ? (
                               <ErrorMessage data={errors.lastName} />
@@ -224,16 +231,16 @@ export default function Register({ route }) {
                           </View>
                           <View
                             style={{
-                              flexDirection: 'column',
-                              width: '100%',
+                              flexDirection: "column",
+                              width: "100%",
                             }}
                           >
                             <TextField
                               style={styles.textField}
                               value={values.age}
                               label="Age"
-                              onChangeText={handleChange('age')}
-                              onBlur={handleBlur('age')}
+                              onChangeText={handleChange("age")}
+                              onBlur={handleBlur("age")}
                             />
                             {touched.age && errors.age ? (
                               <ErrorMessage data={errors.age} />
@@ -242,16 +249,16 @@ export default function Register({ route }) {
 
                           <View
                             style={{
-                              flexDirection: 'column',
-                              width: '100%',
+                              flexDirection: "column",
+                              width: "100%",
                             }}
                           >
                             <TextField
                               style={styles.textField}
                               value={values.address}
                               label="Address"
-                              onChangeText={handleChange('address')}
-                              onBlur={handleBlur('address')}
+                              onChangeText={handleChange("address")}
+                              onBlur={handleBlur("address")}
                             />
                             {touched.address && errors.address ? (
                               <ErrorMessage data={errors.address} />
@@ -260,16 +267,16 @@ export default function Register({ route }) {
 
                           <View
                             style={{
-                              flexDirection: 'column',
-                              width: '100%',
+                              flexDirection: "column",
+                              width: "100%",
                             }}
                           >
                             <TextField
                               style={styles.textField}
                               value={values.country}
                               label="Country"
-                              onChangeText={handleChange('country')}
-                              onBlur={handleBlur('country')}
+                              onChangeText={handleChange("country")}
+                              onBlur={handleBlur("country")}
                             />
                             {touched.country && errors.country ? (
                               <ErrorMessage data={errors.country} />
@@ -278,16 +285,16 @@ export default function Register({ route }) {
 
                           <View
                             style={{
-                              flexDirection: 'column',
-                              width: '100%',
+                              flexDirection: "column",
+                              width: "100%",
                             }}
                           >
                             <TextField
                               style={styles.textField}
                               value={values.email}
                               label="Email"
-                              onChangeText={handleChange('email')}
-                              onBlur={handleBlur('email')}
+                              onChangeText={handleChange("email")}
+                              onBlur={handleBlur("email")}
                             />
                             {touched.email && errors.email ? (
                               <ErrorMessage data={errors.email} />
@@ -296,15 +303,15 @@ export default function Register({ route }) {
 
                           <View
                             style={{
-                              flexDirection: 'column',
-                              width: '100%',
+                              flexDirection: "column",
+                              width: "100%",
                             }}
                           >
                             <TextField
                               style={styles.textField}
                               value={values.phoneNo}
                               label="Phone No"
-                              onChangeText={handleChange('phoneNo')}
+                              onChangeText={handleChange("phoneNo")}
                             />
                             {touched.phoneNo && errors.phoneNo ? (
                               <ErrorMessage data={errors.phoneNo} />
@@ -316,11 +323,11 @@ export default function Register({ route }) {
                             accessibilityLabel="Choose account type"
                             placeholder="Choose account type"
                             _selectedItem={{
-                              bg: 'teal.600',
+                              bg: "teal.600",
                             }}
                             mt={1}
-                            onValueChange={handleChange('accountType')}
-                            onBlur={handleBlur('accountType')}
+                            onValueChange={handleChange("accountType")}
+                            onBlur={handleBlur("accountType")}
                           >
                             <Select.Item label="Saving account" value="1" />
                             <Select.Item label="Current account" value="2" />
@@ -335,16 +342,16 @@ export default function Register({ route }) {
                           ) : null}
                           <View
                             style={{
-                              flexDirection: 'column',
-                              width: '100%',
+                              flexDirection: "column",
+                              width: "100%",
                             }}
                           >
                             <TextField
                               style={styles.textField}
                               value={values.password}
                               label="Password"
-                              onChangeText={handleChange('password')}
-                              onBlur={handleBlur('password')}
+                              onChangeText={handleChange("password")}
+                              onBlur={handleBlur("password")}
                               password
                             />
                             {touched.password && errors.password ? (
@@ -353,16 +360,16 @@ export default function Register({ route }) {
                           </View>
                           <View
                             style={{
-                              flexDirection: 'column',
-                              width: '100%',
+                              flexDirection: "column",
+                              width: "100%",
                             }}
                           >
                             <TextField
                               style={styles.textField}
                               value={values.confirmPassword}
                               label="Confirm Password"
-                              onChangeText={handleChange('confirmPassword')}
-                              onBlur={handleBlur('confirmPassword')}
+                              onChangeText={handleChange("confirmPassword")}
+                              onBlur={handleBlur("confirmPassword")}
                               password
                             />
                             {touched.confirmPassword &&
@@ -371,7 +378,7 @@ export default function Register({ route }) {
                             ) : null}
                             {values.confirmPassword != values.password ? (
                               <ErrorMessage
-                                data={'confirm password is Wrong'}
+                                data={"confirm password is Wrong"}
                               />
                             ) : null}
                           </View>
@@ -382,9 +389,9 @@ export default function Register({ route }) {
                               showGradient
                               style={{
                                 height: 42,
-                                width: '65%',
-                                alignSelf: 'center',
-                                justifyContent: 'center',
+                                width: "65%",
+                                alignSelf: "center",
+                                justifyContent: "center",
                                 borderRadius: 20,
                                 marginVertical: 20,
                               }}
@@ -392,8 +399,8 @@ export default function Register({ route }) {
                               <Text
                                 bold
                                 fontSize="md"
-                                color={'white'}
-                                style={{ textAlign: 'center' }}
+                                color={"white"}
+                                style={{ textAlign: "center" }}
                               >
                                 registration
                               </Text>

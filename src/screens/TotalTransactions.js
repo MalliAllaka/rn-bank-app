@@ -21,6 +21,7 @@ import Icon from "../components/CustomIcon";
 import { getTransactions } from "../actions/common";
 import { useAppDispatch } from "../app/store";
 import Gradient from "../components/Gradient";
+import { getCommonData } from "../selector/common";
 
 export default function TotalTransactions({ route, navigation }) {
   const customerId = route?.params?.customerId;
@@ -28,6 +29,10 @@ export default function TotalTransactions({ route, navigation }) {
 
   const showBackButton = route?.params?.showBackButton;
   const dispatch = useAppDispatch();
+  const common = useSelector((state) => getCommonData(state));
+
+  const { baseUrl } = common;
+
   const [pageNumber, setPageNumber] = React.useState(0);
   const [loadMore, setLoadMore] = React.useState(true);
   const [transactionData, setTransactionData] = React.useState([]);
@@ -59,9 +64,14 @@ export default function TotalTransactions({ route, navigation }) {
           setTransactionData(transactionData.concat(payload.data));
         }
       } else {
+        if(currentPage == 0) {
+          setTransactionData([]);
+        }
         setLoadMore(false);
       }
-    } catch (error) {}
+    } catch (error) {
+
+    }
     setLoading(false);
   };
 
@@ -127,6 +137,7 @@ export default function TotalTransactions({ route, navigation }) {
           <TouchableOpacity
             onPress={() => {
               if (startDate != "" && endDate != "") {
+                setPageNumber(0);
                 getData(0);
               }
             }}
@@ -161,7 +172,7 @@ export default function TotalTransactions({ route, navigation }) {
           }}
           onPress={() =>
             Linking.openURL(
-              "http://192.168.150.101:7777/transactions/findbyCustomerId/export?pageNumber=0&pageSize=5&customerId=2&startDate=19/02/2023&endDate=26/02/2023"
+              `${baseUrl}/transactions/findbyCustomerId/export?pageNumber=${pageNumber-1}&pageSize=15&customerId=${customerId}&startDate=${startDate}&endDate=${endDate}`
             )
           }
         >
@@ -181,6 +192,7 @@ export default function TotalTransactions({ route, navigation }) {
           )}
           onRefresh={() => {
             setLoadMore(true);
+            setPageNumber(0);
             getData(0);
           }}
           onEndReached={() => {
