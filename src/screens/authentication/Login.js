@@ -24,7 +24,7 @@ import TextField from "../../components/InputField";
 import CheckBoxField from "../../components/CheckBoxField";
 import { useAppDispatch } from "../../app/store";
 import ChangeUrl from "../../components/ChangeUrl";
-import { api } from '../../utils/api';
+import { api } from "../../utils/api";
 
 export default function Login() {
   const navigation = useNavigation();
@@ -53,13 +53,16 @@ export default function Login() {
     const { payload } = loginStatus;
 
     if (!payload) {
-      toast.show(`You have entered an invalid username or password ${api?.defaults?.baseURL}`, {
-        type: "danger",
-        placement: "top",
-        duration: 4000,
-        offset: 30,
-        animationType: "slide-in",
-      });
+      toast.show(
+        `You have entered an invalid username or password ${api?.defaults?.baseURL}`,
+        {
+          type: "danger",
+          placement: "top",
+          duration: 4000,
+          offset: 30,
+          animationType: "slide-in",
+        }
+      );
     }
     setLoading(false);
   };
@@ -158,7 +161,7 @@ export default function Login() {
             </Text>
             <TouchableOpacity onPress={() => navigation.navigate("Register")}>
               <Text style={{ textAlign: "center" }} color="primary.400">
-                Create an Account
+                {`Create an Account ->`}
               </Text>
             </TouchableOpacity>
           </View>
