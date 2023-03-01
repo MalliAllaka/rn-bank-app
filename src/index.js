@@ -5,6 +5,7 @@ import {
   StyleSheet,
   View,
   Platform,
+  Alert,
 } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
@@ -115,34 +116,36 @@ const config = {
 };
 
 export default function index() {
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
 
   const checkUpdates = async () => {
     console.log("Checking for an update...");
     try {
-      const update = await Updates.checkForUpdateAsync();
-      if (update.isAvailable) {
-        console.log("An update was found, downloading...");
-        const fetchedUpdate = await Updates.fetchUpdateAsync();
-        if (fetchedUpdate.isNew) {
-          Alert.alert(
-            "Update",
-            "New update is available , restart is required.",
-            [
-              {
-                text: "Accept",
-                onPress: () => {
-                  Updates.reloadAsync();
+      if (Platform.OS != "web") {
+        const update = await Updates.checkForUpdateAsync();
+        if (update.isAvailable) {
+          console.log("An update was found, downloading...");
+          const fetchedUpdate = await Updates.fetchUpdateAsync();
+          if (fetchedUpdate.isNew) {
+            Alert.alert(
+              "Update",
+              "New update is available , restart is required.",
+              [
+                {
+                  text: "Accept",
+                  onPress: () => {
+                    Updates.reloadAsync();
+                  },
                 },
-              },
-            ],
-            { cancelable: false }
-          );
+              ],
+              { cancelable: false }
+            );
+          } else {
+            console.log("No New updates");
+          }
         } else {
-          console.log("No New updates");
+          console.log("No updates");
         }
-      } else {
-        console.log("No updates");
       }
     } catch (e) {
       console.log("Failed to Check Update", e);
