@@ -10,7 +10,8 @@
         "resourceClass": "m1-medium"
       }
     },
-    "preview": {
+    "master": {
+      "channel": "master",
       "distribution": "internal",
       "ios": {
         "resourceClass": "m1-medium"

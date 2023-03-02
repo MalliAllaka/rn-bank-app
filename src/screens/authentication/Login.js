@@ -161,7 +161,7 @@ export default function Login() {
             </Text>
             <TouchableOpacity onPress={() => navigation.navigate("Register")}>
               <Text style={{ textAlign: "center" }} color="primary.400">
-                {`Create an Account ->`}
+                {`Create an Account`}
               </Text>
             </TouchableOpacity>
           </View>
